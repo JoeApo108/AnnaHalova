@@ -1,0 +1,15 @@
+{
+  "name": "annahalova",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:cms": "npm run dev -w packages/cms",
+    "dev:frontend": "npm run dev -w packages/frontend",
+    "deploy:cms": "npm run deploy -w packages/cms",
+    "deploy:frontend": "npm run deploy -w packages/frontend",
+    "deploy": "npm run deploy:cms && npm run deploy:frontend"
+  }
+}

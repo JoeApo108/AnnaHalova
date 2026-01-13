@@ -1,0 +1,17 @@
+{
+  "email": "halovaanna@seznam.cz",
+  "phone": "+420 605 206 558",
+  "location": {
+    "cs": "Pitín, Bílé Karpaty",
+    "en": "Pitín, White Carpathians"
+  },
+  "intro": {
+    "cs": "V případě Vašeho zájmu o dílo, výstavu nebo spolupráci mě prosím kontaktujte.",
+    "en": "If you are interested in my work, an exhibition, or collaboration, please contact me."
+  },
+  "social": [
+    { "name": "Instagram", "url": "https://instagram.com/anihalou" },
+    { "name": "Facebook", "url": "https://www.facebook.com/anihalou" },
+    { "name": "Behance", "url": "https://www.behance.net/Cruinne" }
+  ]
+}

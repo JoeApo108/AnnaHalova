@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "paintings": "Paintings",
+    "watercolors": "Watercolors & Ink",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "Anna Hálová | Painter",
+    "description": "Anna Hálová - Czech painter. Portfolio of oil paintings, watercolors and ink drawings.",
+    "intro": [
+      "Here I share with you my passion for painting. In a painting, I feel, I can express what is unfolding in the field of perception.",
+      "I have been painting since childhood. Along the way I tried drawing and printmaking, sculpture, media, writing – and returned to what I love most.",
+      "There is not much to write about. No grand thinking, sketches or preparations. I paint when it comes to me. I don't know the next stroke myself, nor the final form of the work. Creation is a wondrous Moment; a living, pulsating pause.",
+      "For me, painting is an adventurous journey. Come with me for a while and take a look.."
+    ],
+    "viewAllPaintings": "View all paintings",
+    "selectedWorks": "Selected works"
+  },
+  "paintings": {
+    "title": "Paintings",
+    "years": {
+      "2025": "2025",
+      "2024": "2024",
+      "2023": "2023",
+      "2020": "2020"
+    }
+  },
+  "watercolors": {
+    "title": "Watercolors & Ink",
+    "viewCycle": "View full cycle"
+  },
+  "about": {
+    "title": "About",
+    "exhibitions": "Exhibitions",
+    "residencies": "Residencies",
+    "education": "Education",
+    "showAll": "Show all",
+    "showLess": "Show less"
+  },
+  "contact": {
+    "title": "Contact"
+  },
+  "lightbox": {
+    "close": "Close",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "footer": {
+    "copyright": "© 2025 Anna Hálová"
+  },
+  "artwork": {
+    "oilOnCanvas": "oil on canvas",
+    "oilOnBoard": "oil on board",
+    "watercolorInk": "watercolor / ink",
+    "sold": "SOLD",
+    "donated": "DONATED"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Anna Hálová - Painter",
+  "short_name": "Anna Hálová",
+  "description": "Oil paintings, watercolors and ink drawings by Czech artist Anna Hálová",
+  "start_url": "/cs/",
+  "display": "standalone",
+  "background_color": "#fefefe",
+  "theme_color": "#2d4a3d",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "/favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180",
+      "purpose": "any maskable"
+    }
+  ]
+}

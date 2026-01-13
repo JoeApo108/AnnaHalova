@@ -1,0 +1,144 @@
+{
+  "series": [
+    {
+      "id": "vertikalni-setkani",
+      "title": { "cs": "Vertikální setkání", "en": "Vertical Encounter" },
+      "year": 2025,
+      "preview": ["img_0292.jpg", "img_0293.jpg", "img_0294.jpg"],
+      "artworks": [
+        { "id": "w001", "filename": "img_0292.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w002", "filename": "img_0293.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w003", "filename": "img_0294.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w004", "filename": "img_0295.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w005", "filename": "img_0296.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w006", "filename": "img_0297.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w007", "filename": "img_0298.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w008", "filename": "img_0299.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w009", "filename": "img_0300.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 }
+      ]
+    },
+    {
+      "id": "kone",
+      "title": { "cs": "Koně", "en": "Horses" },
+      "year": 2025,
+      "preview": ["img_0245.jpg", "img_0246.jpg", "img_0247.jpg"],
+      "artworks": [
+        { "id": "w010", "filename": "img_0245.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w011", "filename": "img_0246.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w012", "filename": "img_0247.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w013", "filename": "img_0248.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w014", "filename": "img_0249.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w015", "filename": "img_0250.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w016", "filename": "img_0310.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w017", "filename": "img_0311.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w018", "filename": "img_0312.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 }
+      ]
+    },
+    {
+      "id": "clovek-ve-vesmiru",
+      "title": { "cs": "Člověk ve vesmíru", "en": "Human in Space" },
+      "year": 2025,
+      "preview": ["img_0285.jpg", "img_0286.jpg", "img_0287.jpg"],
+      "artworks": [
+        { "id": "w019", "filename": "img_0285.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w020", "filename": "img_0286.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w021", "filename": "img_0287.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w022", "filename": "img_0288.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w023", "filename": "img_0289.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w024", "filename": "img_0290.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w025", "filename": "img_0291.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 }
+      ]
+    },
+    {
+      "id": "smaragdovy-vecer",
+      "title": { "cs": "Smaragdový večer", "en": "Emerald Evening" },
+      "year": 2025,
+      "preview": ["img_0279.jpg", "img_0280.jpg", "img_0281.jpg"],
+      "artworks": [
+        { "id": "w026", "filename": "img_0279.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w027", "filename": "img_0280.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w028", "filename": "img_0281.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w029", "filename": "img_0282.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w030", "filename": "img_0283.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w031", "filename": "img_0284.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 }
+      ]
+    },
+    {
+      "id": "stribrna-modra",
+      "title": { "cs": "Stříbrná-modrá", "en": "Silver-Blue" },
+      "year": 2025,
+      "preview": ["img_0230.jpg", "img_0241.jpg", "img_0242.jpg"],
+      "artworks": [
+        { "id": "w032", "filename": "img_0230.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w033", "filename": "img_0241.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w034", "filename": "img_0242.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w035", "filename": "img_0243.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w036", "filename": "img_0244.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 }
+      ]
+    },
+    {
+      "id": "snazici-se-clovek",
+      "title": { "cs": "Snažící se člověk", "en": "Striving Human" },
+      "year": 2025,
+      "preview": ["img_0268.jpg", "img_0269.jpg", "img_0270.jpg"],
+      "artworks": [
+        { "id": "w037", "filename": "img_0268.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w038", "filename": "img_0269.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w039", "filename": "img_0270.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w040", "filename": "img_0271.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w041", "filename": "img_0272.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 }
+      ]
+    },
+    {
+      "id": "konstrukce",
+      "title": { "cs": "Konstrukce někoho, kdo neexistuje", "en": "Construction of Someone Who Doesn't Exist" },
+      "year": 2025,
+      "preview": ["img_0276.jpg", "img_0277.jpg", "img_0278.jpg"],
+      "artworks": [
+        { "id": "w042", "filename": "img_0276.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w043", "filename": "img_0277.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w044", "filename": "img_0278.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 }
+      ]
+    },
+    {
+      "id": "nezarazene",
+      "title": { "cs": "Nezařazené", "en": "Uncategorized" },
+      "year": 2025,
+      "preview": ["img_0229.jpg", "img_0231.jpg", "img_0232.jpg"],
+      "artworks": [
+        { "id": "w045", "filename": "img_0229.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w046", "filename": "img_0231.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w047", "filename": "img_0232.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w048", "filename": "img_0233.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w049", "filename": "img_0234.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w050", "filename": "img_0236.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w051", "filename": "img_0237.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w052", "filename": "img_0238.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w053", "filename": "img_0239.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w054", "filename": "img_0240.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w055", "filename": "img_0253.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w056", "filename": "img_0254.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w057", "filename": "img_0255.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w058", "filename": "img_0256.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w059", "filename": "img_0257.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w060", "filename": "img_0258.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w061", "filename": "img_0259.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w062", "filename": "img_0260.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w063", "filename": "img_0262.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w064", "filename": "img_0263.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w065", "filename": "img_0264.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w066", "filename": "img_0265.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w067", "filename": "img_0266.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w068", "filename": "img_0267.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w069", "filename": "img_0273.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w070", "filename": "img_0274.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w071", "filename": "img_0275.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w072", "filename": "img_0301.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w073", "filename": "img_0302.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w074", "filename": "img_0303.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w075", "filename": "img_0304.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 },
+        { "id": "w076", "filename": "img_0305.jpg", "title": { "cs": "", "en": "" }, "medium": { "cs": "akvarel / tuš", "en": "watercolor / ink" }, "dimensions": "", "year": 2025 }
+      ]
+    }
+  ]
+}

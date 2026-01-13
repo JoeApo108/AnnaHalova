@@ -1,0 +1,54 @@
+{
+  "bio": {
+    "birthYear": 1991,
+    "birthPlace": "Jeseník",
+    "description": {
+      "cs": "Po SŠPU v Hodoníně jsem vystudovala Fakultu Umění Ostravské Univerzity ve Zlíně (BcA.) a Ostravě (MgA.), obor volná grafika. Absolvovala jsem stáže v Polsku, Finsku, Norsku. Strávila jsem tři roky na AVU na intermediích a grafice. Po několika letech pauzy jsem se vrátila ke tvorbě.",
+      "en": "After SŠPU in Hodonín, I studied at the Faculty of Arts at the University of Ostrava in Zlín (BcA.) and Ostrava (MgA.), specializing in printmaking. I completed residencies in Poland, Finland, and Norway. I spent three years at the Academy of Fine Arts in Prague in intermedia and printmaking. After a few years' break, I returned to creating."
+    }
+  },
+  "exhibitions": [
+    { "year": 2025, "name": { "cs": "Kavárna Jizba, Luhačovice", "en": "Jizba Café, Luhačovice" }, "visible": true },
+    { "year": 2025, "name": { "cs": "Restaurace Beseda, Valašské Klobouky", "en": "Beseda Restaurant, Valašské Klobouky" }, "visible": true },
+    { "year": 2024, "name": { "cs": "Tea Party, Klub Maják, Bojkovice", "en": "Tea Party, Maják Club, Bojkovice" }, "visible": true },
+    { "year": 2022, "name": { "cs": "Skupinová výstava účastníků stáže na Mustarinda residenci (Fi), Praha", "en": "Group exhibition of Mustarinda residency participants (Fi), Prague" }, "visible": true },
+    { "year": 2019, "name": { "cs": "Věž Novoměstské radnice, Praha (skupinová s ateliérem grafiky II)", "en": "Tower of New Town Hall, Prague (group with Graphics Studio II)" }, "visible": true },
+    { "year": 2018, "name": { "cs": "Centrum Hybernská, Praha (skupinová s ateliérem grafiky II)", "en": "Hybernská Center, Prague (group with Graphics Studio II)" }, "visible": true },
+    { "year": 2017, "name": { "cs": "Colloredo Mansfeldský palác, Praha", "en": "Colloredo-Mansfeld Palace, Prague" }, "visible": false },
+    { "year": 2017, "name": { "cs": "Lublaň, Slovinsko (skupinová)", "en": "Ljubljana, Slovenia (group)" }, "visible": false },
+    { "year": 2017, "name": { "cs": "Festival umění Kukačka – instalace Bezhlavá procházka", "en": "Kukačka Art Festival – Headless Walk installation" }, "visible": false },
+    { "year": 2017, "name": { "cs": "Cena Mileny Jesenské – 3. místo", "en": "Milena Jesenská Award – 3rd place" }, "visible": false },
+    { "year": 2016, "name": { "cs": "Tabula rasa, kaplička Zálesí", "en": "Tabula rasa, Zálesí Chapel" }, "visible": false },
+    { "year": 2016, "name": { "cs": "Příběh, předmět, příběh; galerie Vednevnoci, Hodonín", "en": "Story, Object, Story; Vednevnoci Gallery, Hodonín" }, "visible": false },
+    { "year": 2016, "name": { "cs": "Koupaliště, Katovna Jeseník", "en": "Swimming Pool, Katovna Jeseník" }, "visible": false },
+    { "year": 2015, "name": { "cs": "GVU Ostrava (noc muzeí)", "en": "GVU Ostrava (museum night)" }, "visible": false },
+    { "year": 2015, "name": { "cs": "Projekce videí, Katedrála Božského Spasitele, Ostrava", "en": "Video Projection, Cathedral of the Divine Savior, Ostrava" }, "visible": false },
+    { "year": 2015, "name": { "cs": "Festival Kruh, Země Ostrov, Ústí nad Labem", "en": "Kruh Festival, Země Ostrov, Ústí nad Labem" }, "visible": false },
+    { "year": 2015, "name": { "cs": "Trienále barevné grafiky – duety, Toruń, Polsko", "en": "Color Graphics Triennial – Duets, Toruń, Poland" }, "visible": false },
+    { "year": 2015, "name": { "cs": "Malířské sympozium, Bílá Voda", "en": "Painting Symposium, Bílá Voda" }, "visible": false },
+    { "year": 2015, "name": { "cs": "Kino Pohoda, Jeseník – grafiky, kresby, akvarely", "en": "Pohoda Cinema, Jeseník – prints, drawings, watercolors" }, "visible": false },
+    { "year": 2015, "name": { "cs": "Diplomanti, Staré koupelny Vítkovice, Ostrava", "en": "Graduates, Old Baths Vítkovice, Ostrava" }, "visible": false },
+    { "year": 2015, "name": { "cs": "Landartové sympozium LES, Trenčín", "en": "LES Land Art Symposium, Trenčín" }, "visible": false },
+    { "year": 2015, "name": { "cs": "Festival Kůra – performance RanDOMY, Kutná Hora", "en": "Kůra Festival – RanDOMY performance, Kutná Hora" }, "visible": false },
+    { "year": 2015, "name": { "cs": "Dveře grafiky dokořán, KD Třinec", "en": "Doors of Graphics Wide Open, KD Třinec" }, "visible": false },
+    { "year": 2014, "name": { "cs": "Festival Kruh – performance Kručení, Ústí nad Labem", "en": "Kruh Festival – Kručení performance, Ústí nad Labem" }, "visible": false },
+    { "year": 2014, "name": { "cs": "Sokolská 26, Ostrava – cyklus Sny (samostatná)", "en": "Sokolská 26, Ostrava – Dreams cycle (solo)" }, "visible": false },
+    { "year": 2014, "name": { "cs": "Kavárna Zlaté zrnko, Zlín (samostatná)", "en": "Zlaté zrnko Café, Zlín (solo)" }, "visible": false },
+    { "year": 2012, "name": { "cs": "Čajovna Lilith, Zlín", "en": "Lilith Tea House, Zlín" }, "visible": false },
+    { "year": 2012, "name": { "cs": "Galerie Photogether, Zlín – Dobrá paštika", "en": "Photogether Gallery, Zlín – Good Pâté" }, "visible": false },
+    { "year": 2011, "name": { "cs": "Vinárna Malenovice – cykly Sny a Dlouhý pohled", "en": "Malenovice Wine Bar – Dreams and Long View cycles" }, "visible": false },
+    { "year": 2010, "name": { "cs": "Sazka – soutěž o návrh stíracích losů, 6. místo", "en": "Sazka – scratch card design competition, 6th place" }, "visible": false }
+  ],
+  "residencies": [
+    { "year": 2015, "name": { "cs": "Rost AiR, umělecká residence, Norsko", "en": "Rost AiR, Artist Residency, Norway" } },
+    { "year": 2014, "name": { "cs": "Mustarinda, umělecká residence, Finsko", "en": "Mustarinda, Artist Residency, Finland" } },
+    { "year": 2014, "name": { "cs": "ASP Katowice, Erasmus+, Polsko", "en": "ASP Katowice, Erasmus+, Poland" } },
+    { "year": 2012, "name": { "cs": "Accademia Belle Arti di Frosinone, Erasmus, Itálie", "en": "Accademia Belle Arti di Frosinone, Erasmus, Italy" } }
+  ],
+  "education": [
+    { "years": "2016–2019", "name": { "cs": "Akademie výtvarných umění v Praze, Ateliér intermediální tvorby II", "en": "Academy of Fine Arts in Prague, Intermedia Studio II" } },
+    { "years": "2013–2015", "name": { "cs": "Ostravská univerzita, MgA., volná grafika", "en": "University of Ostrava, MgA., Printmaking" } },
+    { "years": "2010–2013", "name": { "cs": "Ostravská univerzita, BcA., volná grafika", "en": "University of Ostrava, BcA., Printmaking" } },
+    { "years": "2006–2010", "name": { "cs": "SŠ umělecká a průmyslová, Hodonín", "en": "Secondary School of Arts and Design, Hodonín" } }
+  ]
+}

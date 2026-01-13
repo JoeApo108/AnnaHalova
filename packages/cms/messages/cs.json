@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "paintings": "Malby",
+    "watercolors": "Akvarely, Tuše",
+    "about": "O mně",
+    "contact": "Kontakt"
+  },
+  "home": {
+    "title": "Anna Hálová | Malba",
+    "description": "Anna Hálová - olejomalby, akvarely a kresby tuší.",
+    "intro": [
+      "Sdílím tu s vámi svou vášeň k malbě. V obraze, mám pocit, můžu vyjádřit to, co se právě odehrává v poli vnímání.",
+      "Maluji od dětství. Cestou jsem vyzkoušela kresbu a grafiku, sochu, média, psaní a vrátila se k tomu, co je mi nejmilejší.",
+      "Není moc o čem psát. Bez velkého přemýšlení, návrhů a příprav. Maluje se, když to na mě přijde. Sama neznám příští tah, ani výslednou podobu díla. Tvorba je úžasný Moment; živé, pulzující zastavení.",
+      "Pro mě je malba dobrodružná cesta. Pojďte chvíli se mnou a nahlédněte.."
+    ],
+    "viewAllPaintings": "Zobrazit všechny malby",
+    "selectedWorks": "Vybraná díla"
+  },
+  "paintings": {
+    "title": "Malby",
+    "years": {
+      "2025": "2025",
+      "2024": "2024",
+      "2023": "2023",
+      "2020": "2020"
+    }
+  },
+  "watercolors": {
+    "title": "Akvarely a Tuše",
+    "viewCycle": "Zobrazit celý cyklus"
+  },
+  "about": {
+    "title": "O mně",
+    "exhibitions": "Výstavy",
+    "residencies": "Stáže",
+    "education": "Vzdělání",
+    "showAll": "Zobrazit vše",
+    "showLess": "Zobrazit méně"
+  },
+  "contact": {
+    "title": "Kontakt"
+  },
+  "lightbox": {
+    "close": "Zavřít",
+    "previous": "Předchozí",
+    "next": "Další"
+  },
+  "footer": {
+    "copyright": "© 2025 Anna Hálová"
+  },
+  "artwork": {
+    "oilOnCanvas": "olej na plátně",
+    "oilOnBoard": "olej na desce",
+    "watercolorInk": "akvarel / tuš",
+    "sold": "PRODÁNO",
+    "donated": "VĚNOVÁNO"
+  }
+}
