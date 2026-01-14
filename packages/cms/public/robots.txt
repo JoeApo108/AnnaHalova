@@ -1,0 +1,29 @@
+# Additional rules (Cloudflare adds its AI blocker rules automatically)
+
+# Extra AI bots not covered by Cloudflare
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+# Image scrapers
+User-agent: img2dataset
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /images/
+
+Sitemap: https://annahalova.cz/sitemap.xml

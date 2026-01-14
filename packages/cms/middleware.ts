@@ -35,6 +35,13 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
+  const host = request.headers.get('host') || ''
+
+  // Redirect public routes from CMS domain to main domain
+  if (host.startsWith('cms.') && !pathname.startsWith('/admin') && !pathname.startsWith('/api/') && pathname !== '/sitemap.xml') {
+    const mainDomain = host.replace('cms.', '')
+    return NextResponse.redirect(new URL(pathname, `https://${mainDomain}`), 301)
+  }
 
   // Handle API routes FIRST - no i18n, just security headers
   if (pathname.startsWith('/api/')) {

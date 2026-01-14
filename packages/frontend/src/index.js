@@ -48,6 +48,15 @@ export default {
       return Response.redirect(`${url.origin}/cs`, 302);
     }
 
+    // Proxy sitemap.xml to backend
+    if (path === '/sitemap.xml') {
+      const sitemapResponse = await fetch('https://cms.annahalova.cz/sitemap.xml');
+      return addSecurityHeaders(new Response(sitemapResponse.body, {
+        status: sitemapResponse.status,
+        headers: { 'Content-Type': 'application/xml', 'Cache-Control': 'public, max-age=3600' }
+      }));
+    }
+
     // Images are stored in R2 under images/ prefix
     // e.g., /images/full/001-lava.jpg -> images/full/001-lava.jpg
     if (path.startsWith('/images/')) {
