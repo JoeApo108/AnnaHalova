@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Gallery from '@/components/Gallery'
 import { getPaintingYears, getPaintingsByYear } from '@/lib/data-d1'
 import { getRoutes } from '@/lib/routes'
+import { buildPageAlternates } from '@/lib/seo'
 
 // Force dynamic rendering to read from D1
 export const dynamic = 'force-dynamic'
@@ -15,7 +16,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'paintings' })
-  return { title: `${t('title')} | Anna Hálová` }
+  return {
+    title: `${t('title')} | Anna Hálová`,
+    description: t('description'),
+    alternates: buildPageAlternates(locale, 'paintings'),
+  }
 }
 
 export default async function PaintingsPage({

@@ -1,5 +1,5 @@
 import { execSync } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 
@@ -59,6 +59,20 @@ const run = (cmd: string, cwd: string) => {
 
 async function deploy() {
   try {
+    // 0. Update sitemap lastModified date to today
+    log('Updating sitemap lastModified date...');
+    const sitemapPath = join(PKG_DIR, 'app', 'sitemap.ts');
+    const today = new Date().toISOString().split('T')[0];
+    const sitemapContent = readFileSync(sitemapPath, 'utf-8');
+    writeFileSync(
+      sitemapPath,
+      sitemapContent.replace(
+        /const LAST_CONTENT_UPDATE = '[^']+'/,
+        `const LAST_CONTENT_UPDATE = '${today}'`,
+      ),
+    );
+    console.log(`  Updated LAST_CONTENT_UPDATE to ${today}`);
+
     // 1. Prepare Clean Build Directory
     log(`Preparing clean build environment at ${BUILD_DIR}...`);
     if (existsSync(BUILD_DIR)) {

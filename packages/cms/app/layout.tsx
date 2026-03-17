@@ -1,4 +1,4 @@
-// Root layout - locale-specific layout handles the actual rendering
+// Root layout - locale-specific layout overrides <html> with correct lang attribute
 import type { Viewport } from 'next'
 
 export const viewport: Viewport = {
@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html>
+    <html lang="cs">
       <body>{children}</body>
     </html>
   )

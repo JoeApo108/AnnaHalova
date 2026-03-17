@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import Gallery from '@/components/Gallery'
 import { getWatercolorSeries, getWatercolorSeriesById, getLocalizedText } from '@/lib/data-d1'
 import { getRoutes } from '@/lib/routes'
+import { buildPageAlternates } from '@/lib/seo'
 
 // Force dynamic rendering to read from D1
 export const dynamic = 'force-dynamic'
@@ -17,8 +18,11 @@ export async function generateMetadata({
   const { locale, series: seriesId } = await params
   const series = await getWatercolorSeriesById(seriesId)
   if (!series) return { title: 'Not Found' }
+  const title = getLocalizedText(series.title, locale as 'cs' | 'en')
   return {
-    title: `${getLocalizedText(series.title, locale as 'cs' | 'en')} | Anna Hálová`,
+    title: `${title} | Anna Hálová`,
+    description: `${title}, ${series.year} — Anna Hálová`,
+    alternates: buildPageAlternates(locale, 'watercolors', seriesId),
   }
 }
 

@@ -5,6 +5,7 @@ import Carousel from '@/components/Carousel'
 import Gallery from '@/components/Gallery'
 import { getCarouselSlides, getFeaturedPaintings } from '@/lib/data-d1'
 import { getRoutes } from '@/lib/routes'
+import { buildAlternates } from '@/lib/seo'
 
 // Force dynamic rendering to read from D1
 export const dynamic = 'force-dynamic'
@@ -20,6 +21,7 @@ export async function generateMetadata({
   return {
     title: t('title'),
     description: t('description'),
+    alternates: buildAlternates(locale, '', ''),
     openGraph: {
       title: t('title'),
       description: t('description'),

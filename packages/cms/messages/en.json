@@ -19,6 +19,7 @@
   },
   "paintings": {
     "title": "Paintings",
+    "description": "Oil paintings by Anna Hálová — collection organized by year.",
     "years": {
       "2025": "2025",
       "2024": "2024",
@@ -28,10 +29,12 @@
   },
   "watercolors": {
     "title": "Watercolors & Ink",
+    "description": "Watercolors and ink drawings by Anna Hálová — cycles and series.",
     "viewCycle": "View full cycle"
   },
   "about": {
     "title": "About",
+    "description": "Anna Hálová — biography, exhibitions, residencies and education of a Czech painter.",
     "exhibitions": "Exhibitions",
     "residencies": "Residencies",
     "education": "Education",
@@ -39,7 +42,8 @@
     "showLess": "Show less"
   },
   "contact": {
-    "title": "Contact"
+    "title": "Contact",
+    "description": "Contact painter Anna Hálová — email, phone, social media."
   },
   "lightbox": {
     "close": "Close",

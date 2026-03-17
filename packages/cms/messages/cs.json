@@ -19,6 +19,7 @@
   },
   "paintings": {
     "title": "Malby",
+    "description": "Olejomalby Anny Hálové — kolekce obrazů řazených podle roku vzniku.",
     "years": {
       "2025": "2025",
       "2024": "2024",
@@ -28,10 +29,12 @@
   },
   "watercolors": {
     "title": "Akvarely a Tuše",
+    "description": "Akvarely a kresby tuší Anny Hálové — cykly a série.",
     "viewCycle": "Zobrazit celý cyklus"
   },
   "about": {
     "title": "O mně",
+    "description": "Anna Hálová — životopis, výstavy, stáže a vzdělání české malířky.",
     "exhibitions": "Výstavy",
     "residencies": "Stáže",
     "education": "Vzdělání",
@@ -39,7 +42,8 @@
     "showLess": "Zobrazit méně"
   },
   "contact": {
-    "title": "Kontakt"
+    "title": "Kontakt",
+    "description": "Kontaktujte malířku Annu Hálovou — email, telefon, sociální sítě."
   },
   "lightbox": {
     "close": "Zavřít",

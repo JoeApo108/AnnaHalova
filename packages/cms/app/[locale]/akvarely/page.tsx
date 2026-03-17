@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getWatercolorSeries, getLocalizedText } from '@/lib/data-d1'
 import { getRoutes } from '@/lib/routes'
+import { buildPageAlternates } from '@/lib/seo'
 
 // Force dynamic rendering to read from D1
 export const dynamic = 'force-dynamic'
@@ -15,7 +16,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'watercolors' })
-  return { title: `${t('title')} | Anna Hálová` }
+  return {
+    title: `${t('title')} | Anna Hálová`,
+    description: t('description'),
+    alternates: buildPageAlternates(locale, 'watercolors'),
+  }
 }
 
 export default async function WatercolorsPage({

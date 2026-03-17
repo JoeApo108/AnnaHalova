@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Metadata } from 'next'
 import contactData from '@/data/contact.json'
+import { buildPageAlternates } from '@/lib/seo'
 
 export async function generateMetadata({
   params,
@@ -9,7 +10,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'contact' })
-  return { title: `${t('title')} | Anna Hálová` }
+  return {
+    title: `${t('title')} | Anna Hálová`,
+    description: t('description'),
+    alternates: buildPageAlternates(locale, 'contact'),
+  }
 }
 
 export default async function ContactPage({
