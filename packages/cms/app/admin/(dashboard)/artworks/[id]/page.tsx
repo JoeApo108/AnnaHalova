@@ -86,8 +86,9 @@ export default function ArtworkEditPage() {
         // Use pre-resized blobs (resizing already done on image selection)
         const formData = new FormData()
         formData.append('original', pendingImage.original)
-        formData.append('thumb', pendingImage.thumb, 'thumb.jpg')
-        formData.append('full', pendingImage.full, 'full.jpg')
+        formData.append('thumb', pendingImage.thumb, 'thumb.webp')
+        formData.append('medium', pendingImage.medium, 'medium.webp')
+        formData.append('full', pendingImage.full, 'full.webp')
         formData.append('artworkId', artwork.id || 'new')
 
         const uploadRes = await fetch('/api/upload', {

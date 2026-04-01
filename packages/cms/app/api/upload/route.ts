@@ -107,32 +107,35 @@ export async function POST(request: Request) {
       })
     )
 
-    // Upload thumbnail (always JPEG from canvas)
-    const thumbFilename = `${baseFilename}.jpg`
+    // Upload thumbnail (always WebP from canvas)
+    const thumbFilename = `${baseFilename}.webp`
     if (thumb) {
       uploads.push(
         env.R2.put(`images/thumbs/${thumbFilename}`, await thumb.arrayBuffer(), {
-          httpMetadata: { contentType: 'image/jpeg' }
-        })
-      )
-    } else {
-      // Fallback: use original if no thumb provided
-      uploads.push(
-        env.R2.put(`images/thumbs/${thumbFilename}`, await mainFile.arrayBuffer(), {
-          httpMetadata: { contentType: mainFile.type }
+          httpMetadata: { contentType: 'image/webp' }
         })
       )
     }
 
-    // Upload full-size (always JPEG from canvas)
+    // Upload medium size
+    const medium = formData.get('medium') as File | null
+    if (medium) {
+      uploads.push(
+        env.R2.put(`images/medium/${thumbFilename}`, await medium.arrayBuffer(), {
+          httpMetadata: { contentType: 'image/webp' }
+        })
+      )
+    }
+
+    // Upload full-size 
     if (full) {
       uploads.push(
         env.R2.put(`images/full/${thumbFilename}`, await full.arrayBuffer(), {
-          httpMetadata: { contentType: 'image/jpeg' }
+          httpMetadata: { contentType: 'image/webp' }
         })
       )
-    } else {
-      // Fallback: use original if no full provided
+    } else if (!thumb) {
+      // Fallback: use original only if nothing else provided
       uploads.push(
         env.R2.put(`images/full/${thumbFilename}`, await mainFile.arrayBuffer(), {
           httpMetadata: { contentType: mainFile.type }
@@ -142,7 +145,7 @@ export async function POST(request: Request) {
 
     await Promise.all(uploads)
 
-    // Use jpg extension for database since thumb/full are JPEG
+    // Use webp extension for database
     const filename = thumbFilename
     const imageUrl = `/api/images/originals/${originalFilename}`
 

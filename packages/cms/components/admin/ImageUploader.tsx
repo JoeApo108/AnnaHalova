@@ -5,6 +5,7 @@ import { useState, useCallback } from 'react'
 export interface ProcessedImage {
   original: File
   thumb: Blob
+  medium: Blob
   full: Blob
 }
 
@@ -47,7 +48,7 @@ async function resizeImage(file: File, maxWidth: number, quality: number): Promi
           if (blob) resolve(blob)
           else reject(new Error('Could not create blob'))
         },
-        'image/jpeg',
+        'image/webp',
         quality
       )
     }
@@ -73,13 +74,14 @@ export function ImageUploader({ artworkId, currentImage, onImageProcessed, onErr
 
     try {
       // Resize in background while user fills form
-      const [thumb, full] = await Promise.all([
+      const [thumb, medium, full] = await Promise.all([
         resizeImage(file, 400, 0.85),
+        resizeImage(file, 800, 0.85),
         resizeImage(file, 1600, 0.90)
       ])
 
       // Pass processed images to parent (will upload on Save)
-      onImageProcessed({ original: file, thumb, full })
+      onImageProcessed({ original: file, thumb, medium, full })
     } catch (err) {
       console.error('Resize error:', err)
       onError?.('Failed to process image')
