@@ -5,7 +5,7 @@ import watercolorsData from '@/data/watercolors.json'
 const BASE_URL = 'https://annahalova.cz'
 
 // Update this date when content actually changes (deploy date or last artwork added)
-const LAST_CONTENT_UPDATE = '2025-11-15'
+const LAST_CONTENT_UPDATE = '2026-04-01'
 const LAST_STATIC_UPDATE = '2025-09-01'
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -1,21 +1,13 @@
 'use client'
 
-import Image from 'next/image'
 import { Artwork } from '@/data/types'
 import { getLocalizedText, getMediumLabel, getStatusLabel } from '@/lib/data'
+import { getImageSrc } from '@/lib/images'
 
 interface GalleryItemProps {
   artwork: Artwork
   locale: 'cs' | 'en'
   onClick: () => void
-}
-
-// Helper to get image URL - use direct path if it's a URL, otherwise use local path
-function getImageSrc(filename: string, type: 'thumbs' | 'full'): string {
-  if (filename.startsWith('/api/') || filename.startsWith('http')) {
-    return filename
-  }
-  return `/images/${type}/${filename}`
 }
 
 export default function GalleryItem({ artwork, locale, onClick }: GalleryItemProps) {
@@ -26,11 +18,13 @@ export default function GalleryItem({ artwork, locale, onClick }: GalleryItemPro
 
   return (
     <div className="gallery__item" onClick={onClick}>
-      <Image
+      <img
         src={getImageSrc(artwork.filename, 'thumbs')}
         alt={title}
         width={300}
         height={375}
+        loading="lazy"
+        decoding="async"
         className="gallery__image"
         style={{ width: '100%', height: 'auto' }}
       />

@@ -6,6 +6,7 @@ import Gallery from '@/components/Gallery'
 import { getCarouselSlides, getFeaturedPaintings } from '@/lib/data-d1'
 import { getRoutes } from '@/lib/routes'
 import { buildAlternates } from '@/lib/seo'
+import { getImageSrc } from '@/lib/images'
 
 // Force dynamic rendering to read from D1
 export const dynamic = 'force-dynamic'
@@ -42,8 +43,16 @@ export default async function HomePage({
   const carouselSlides = await getCarouselSlides()
   const featuredPaintings = await getFeaturedPaintings()
 
+  // Preload LCP image: first carousel slide WebP
+  const lcpImageSrc = carouselSlides.length > 0
+    ? getImageSrc(carouselSlides[0].filename, 'full')
+    : null
+
   return (
     <>
+      {lcpImageSrc && (
+        <link rel="preload" as="image" type="image/webp" href={lcpImageSrc} fetchPriority="high" />
+      )}
       <section className="hero">
         <Carousel slides={carouselSlides} locale={locale as 'cs' | 'en'} />
       </section>

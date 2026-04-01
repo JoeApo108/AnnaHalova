@@ -12,7 +12,7 @@ const SECURITY_HEADERS = {
   // CSP for static site - allow inline scripts for gallery alignment
   'Content-Security-Policy': [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline'",
+    "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: https://*.r2.cloudflarestorage.com https://images.annahalova.cz",
     "font-src 'self' https://fonts.gstatic.com",

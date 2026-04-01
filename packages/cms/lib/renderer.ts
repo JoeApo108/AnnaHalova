@@ -715,7 +715,7 @@ export function renderHome(locale: Locale, paintings: PaintingsData): string {
         <div class="carousel__slides">
           ${paintings.carousel.map((slide, i) => `
             <div class="carousel__slide${i === 0 ? ' active' : ''}" data-index="${i}">
-              <img src="/images/full/${escapeAttr(slide.filename)}" alt="${getLocalized(slide.alt, locale)}">
+              <img src="/images/full/${escapeAttr(slide.filename)}" alt="${getLocalized(slide.alt, locale)}" width="1200" height="800" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'}>
             </div>
           `).join('')}
         </div>
@@ -736,7 +736,7 @@ export function renderHome(locale: Locale, paintings: PaintingsData): string {
       <div class="gallery__grid">
         ${paintings.featured.map(art => `
           <div class="gallery__item">
-            <img src="/images/thumbs/${escapeAttr(art.filename)}" alt="${getLocalized(art.title, locale)}" class="gallery__image">
+            <img src="/images/thumbs/${escapeAttr(art.filename)}" alt="${getLocalized(art.title, locale)}" class="gallery__image" width="300" height="375" loading="lazy" decoding="async">
             <div class="gallery__info">
               <h3 class="gallery__title">${getLocalized(art.title, locale)}</h3>
               <p class="gallery__meta">${getLocalized(art.medium, locale)}, ${escapeHtml(art.dimensions)}</p>
@@ -791,7 +791,7 @@ export function renderPaintings(locale: Locale, paintings: PaintingsData, year: 
             : '';
           return `
             <div class="gallery__item">
-              <img src="/images/full/${escapeAttr(art.filename)}" alt="${getLocalized(art.title, locale)}" class="gallery__image">
+              <img src="/images/full/${escapeAttr(art.filename)}" alt="${getLocalized(art.title, locale)}" class="gallery__image" loading="lazy" decoding="async">
               <div class="gallery__info">
                 <h3 class="gallery__title">${getLocalized(art.title, locale)}</h3>
                 <p class="gallery__meta">${getLocalized(art.medium, locale)}, ${escapeHtml(art.dimensions)}${status}</p>
@@ -845,7 +845,7 @@ export function renderWatercolors(locale: Locale, watercolors: WatercolorsData):
         <div class="gallery__grid">
           ${s.preview.slice(0, 3).map(filename => `
             <div class="gallery__item">
-              <img src="/images/thumbs/${escapeAttr(filename)}" alt="${getLocalized(s.title, locale)}" class="gallery__image">
+              <img src="/images/thumbs/${escapeAttr(filename)}" alt="${getLocalized(s.title, locale)}" class="gallery__image" width="300" height="375" loading="lazy" decoding="async">
             </div>
           `).join('')}
         </div>
@@ -895,7 +895,7 @@ export function renderWatercolorsSeries(locale: Locale, watercolors: Watercolors
       <div class="gallery__grid">
         ${series.artworks.map(art => `
           <div class="gallery__item">
-            <img src="/images/full/${escapeAttr(art.filename)}" alt="${getLocalized(art.title, locale)}" class="gallery__image">
+            <img src="/images/full/${escapeAttr(art.filename)}" alt="${getLocalized(art.title, locale)}" class="gallery__image" loading="lazy" decoding="async">
             <div class="gallery__info">
               <h3 class="gallery__title">${getLocalized(art.title, locale)}</h3>
               <p class="gallery__meta">${getLocalized(art.medium, locale)}, ${escapeHtml(art.dimensions)}</p>

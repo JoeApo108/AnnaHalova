@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect } from 'react'
-import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useLightbox } from '@/context/LightboxContext'
 
@@ -36,7 +35,7 @@ export default function Lightbox() {
         ›
       </button>
       <div className="lightbox__content">
-        <Image
+        <img
           src={currentItem.src}
           alt={currentItem.title}
           width={1200}

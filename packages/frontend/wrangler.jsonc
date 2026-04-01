@@ -12,6 +12,21 @@
       "invocation_logs": true
     }
   },
+  "routes": [
+    {
+      "pattern": "annahalova.cz",
+      "zone_name": "annahalova.cz",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.annahalova.cz",
+      "zone_name": "annahalova.cz",
+      "custom_domain": true
+    }
+  ],
+  "placement": {
+    "mode": "smart"
+  },
   "r2_buckets": [
     {
       "binding": "R2",

@@ -11,11 +11,14 @@ const securityHeaders = {
   'X-XSS-Protection': '1; mode=block',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
-  'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+  // Note: 'preload' added but NOT submitted to hstspreload.org.
+  // Submission is irreversible — do not submit without verifying all subdomains support HTTPS.
+  'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+  'Cross-Origin-Opener-Policy': 'same-origin',
   // CSP: Next.js requires unsafe-inline and unsafe-eval for hydration
   'Content-Security-Policy': [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval'",  // Next.js hydration needs this
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com",  // Next.js hydration + CF analytics
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: blob: https://*.r2.cloudflarestorage.com https://images.annahalova.cz",
     "font-src 'self' https://fonts.gstatic.com",

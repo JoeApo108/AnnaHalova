@@ -1,21 +1,13 @@
 'use client'
 
 import { useState, useEffect, useCallback, TouchEvent } from 'react'
-import Image from 'next/image'
 import { CarouselSlide } from '@/data/types'
 import { getLocalizedText } from '@/lib/data'
+import { getImageSrc } from '@/lib/images'
 
 interface CarouselProps {
   slides: CarouselSlide[]
   locale: 'cs' | 'en'
-}
-
-// Helper to get image URL - use direct path if it's a URL, otherwise use local path
-function getImageSrc(filename: string): string {
-  if (filename.startsWith('/api/') || filename.startsWith('http')) {
-    return filename
-  }
-  return `/images/full/${filename}`
 }
 
 export default function Carousel({ slides, locale }: CarouselProps) {
@@ -73,12 +65,14 @@ export default function Carousel({ slides, locale }: CarouselProps) {
       >
         {slides.map((slide, index) => (
           <div key={index} className="carousel__slide">
-            <Image
-              src={getImageSrc(slide.filename)}
+            <img
+              src={getImageSrc(slide.filename, 'full')}
               alt={getLocalizedText(slide.alt, locale)}
               width={1200}
               height={800}
-              priority={index === 0}
+              loading={index === 0 ? 'eager' : 'lazy'}
+              decoding={index === 0 ? 'sync' : 'async'}
+              fetchPriority={index === 0 ? 'high' : undefined}
               style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
             />
           </div>

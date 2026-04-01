@@ -4,19 +4,12 @@ import { Artwork } from '@/data/types'
 import GalleryItem from './GalleryItem'
 import { useLightbox } from '@/context/LightboxContext'
 import { getLocalizedText, getMediumLabel, getStatusLabel } from '@/lib/data'
+import { getImageSrc } from '@/lib/images'
 
 interface GalleryProps {
   artworks: Artwork[]
   locale: 'cs' | 'en'
   listView?: boolean
-}
-
-// Helper to get image URL - use direct path if it's a URL, otherwise use local path
-function getImageSrc(filename: string, type: 'thumbs' | 'full'): string {
-  if (filename.startsWith('/api/') || filename.startsWith('http')) {
-    return filename
-  }
-  return `/images/${type}/${filename}`
 }
 
 export default function Gallery({ artworks, locale, listView = false }: GalleryProps) {

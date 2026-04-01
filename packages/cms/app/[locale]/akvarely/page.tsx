@@ -1,8 +1,8 @@
 import { getTranslations } from 'next-intl/server'
 import { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import { getWatercolorSeries, getLocalizedText } from '@/lib/data-d1'
+import { getImageSrc } from '@/lib/images'
 import { getRoutes } from '@/lib/routes'
 import { buildPageAlternates } from '@/lib/seo'
 
@@ -58,11 +58,13 @@ export default async function WatercolorsPage({
           <div className="gallery__grid">
             {s.preview.slice(0, 3).map((filename, index) => (
               <div key={index} className="gallery__item">
-                <Image
-                  src={`/images/thumbs/${filename}`}
+                <img
+                  src={getImageSrc(filename, 'thumbs')}
                   alt={getLocalizedText(s.title, locale as 'cs' | 'en')}
                   width={300}
                   height={375}
+                  loading="lazy"
+                  decoding="async"
                   className="gallery__image"
                   style={{ width: '100%', height: 'auto' }}
                 />
