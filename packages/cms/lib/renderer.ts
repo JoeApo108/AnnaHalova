@@ -720,7 +720,7 @@ export function renderHome(locale: Locale, paintings: PaintingsData): string {
         <div class="carousel__slides">
           ${paintings.carousel.map((slide, i) => `
             <div class="carousel__slide${i === 0 ? ' active' : ''}" data-index="${i}">
-              <img src="/images/medium/${escapeAttr(slide.filename)}" srcset="/images/medium/${escapeAttr(slide.filename)} 800w, /images/full/${escapeAttr(slide.filename)} 1600w" sizes="100vw" alt="${getLocalized(slide.alt, locale)}" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'} style="width: 100%; height: 100%; object-fit: contain;">
+              <img src="/images/medium/${escapeAttr(slide.filename)}" srcset="/images/medium/${escapeAttr(slide.filename)} 800w, /images/full/${escapeAttr(slide.filename)} 1600w" sizes="(max-width: 800px) 100vw, 800px" alt="${getLocalized(slide.alt, locale)}" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'} style="width: 100%; height: 100%; object-fit: contain;">
             </div>
           `).join('')}
         </div>
