@@ -117,31 +117,22 @@ export async function POST(request: Request) {
       )
     }
 
-    // Upload medium size
-    const medium = formData.get('medium') as File | null
-    if (medium) {
-      uploads.push(
-        env.R2.put(`images/medium/${thumbFilename}`, await medium.arrayBuffer(), {
-          httpMetadata: { contentType: 'image/webp' }
-        })
-      )
-    }
+    // Upload full-size (fall back to original if canvas resize failed)
+    const fullData = full || mainFile
+    uploads.push(
+      env.R2.put(`images/full/${thumbFilename}`, await fullData.arrayBuffer(), {
+        httpMetadata: { contentType: full ? 'image/webp' : mainFile.type }
+      })
+    )
 
-    // Upload full-size 
-    if (full) {
-      uploads.push(
-        env.R2.put(`images/full/${thumbFilename}`, await full.arrayBuffer(), {
-          httpMetadata: { contentType: 'image/webp' }
-        })
-      )
-    } else if (!thumb) {
-      // Fallback: use original only if nothing else provided
-      uploads.push(
-        env.R2.put(`images/full/${thumbFilename}`, await mainFile.arrayBuffer(), {
-          httpMetadata: { contentType: mainFile.type }
-        })
-      )
-    }
+    // Upload medium size (fall back to full if canvas resize failed)
+    const medium = formData.get('medium') as File | null
+    const mediumData = medium || full || mainFile
+    uploads.push(
+      env.R2.put(`images/medium/${thumbFilename}`, await mediumData.arrayBuffer(), {
+        httpMetadata: { contentType: medium ? 'image/webp' : (full ? 'image/webp' : mainFile.type) }
+      })
+    )
 
     await Promise.all(uploads)
 
