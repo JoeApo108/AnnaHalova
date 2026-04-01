@@ -126,12 +126,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 main { margin-top: var(--header-height); }
 .hero { height: calc(100vh - var(--header-height)); display: flex; align-items: center; justify-content: center; padding: var(--space-lg); }
 .hero img { max-height: 100%; max-width: 100%; object-fit: contain; }
-.carousel { position: relative; height: calc(100vh - var(--header-height)); overflow: hidden; }
-.carousel__slides { position: relative; height: 100%; }
-.carousel__slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: var(--space-lg); opacity: 0; transition: opacity 0.5s ease; }
+.carousel { position: relative; height: calc(100vh - var(--header-height)); overflow: hidden; display: flex; flex-direction: column; }
+.carousel__slides { position: relative; flex: 1; min-height: 0; }
+.carousel__slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: var(--space-lg); padding-bottom: 0; opacity: 0; transition: opacity 0.5s ease; }
 .carousel__slide.active { opacity: 1; }
 .carousel__slide img { max-height: 100%; max-width: 100%; object-fit: contain; }
-.carousel__dots { position: absolute; bottom: var(--space-md); left: 50%; transform: translateX(-50%); display: flex; gap: 0; z-index: 10; }
+.carousel__dots { display: flex; justify-content: center; gap: 0; padding: var(--space-sm) 0; }
 .carousel__dot { width: 40px; height: 40px; border: none; background: transparent; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s ease; }
 .carousel__dot::before { content: ''; display: block; width: 10px; height: 10px; border-radius: 50%; background: var(--color-border); transition: background-color 0.2s ease; }
 .carousel__dot.active::before { background: var(--color-text); }
@@ -175,6 +175,10 @@ main { margin-top: var(--header-height); }
   .hamburger { display: flex; }
   .gallery__grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
   .hero { height: calc(80vh - var(--header-height)); }
+  .carousel { height: calc(60vh - var(--header-height)); }
+  .carousel__dot { width: 30px; height: 30px; }
+  .carousel__dot::before { width: 8px; height: 8px; }
+  .gallery__grid { gap: var(--space-lg); padding: 0 var(--space-sm); }
   .sub-nav { gap: var(--space-xs); padding: var(--space-sm) 0; margin-bottom: var(--space-md); }
   .sub-nav__link { font-size: 13px; padding: 6px 10px; }
   .lightbox__nav { top: auto; }
