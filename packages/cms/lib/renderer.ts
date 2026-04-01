@@ -131,9 +131,10 @@ main { margin-top: var(--header-height); }
 .carousel__slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: var(--space-lg); opacity: 0; transition: opacity 0.5s ease; }
 .carousel__slide.active { opacity: 1; }
 .carousel__slide img { max-height: 100%; max-width: 100%; object-fit: contain; }
-.carousel__dots { position: absolute; bottom: var(--space-md); left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
-.carousel__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--color-border); border: none; cursor: pointer; padding: 0; transition: background-color 0.2s ease; }
-.carousel__dot.active { background: var(--color-text); }
+.carousel__dots { position: absolute; bottom: var(--space-md); left: 50%; transform: translateX(-50%); display: flex; gap: 0; z-index: 10; }
+.carousel__dot { width: 40px; height: 40px; border: none; background: transparent; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s ease; }
+.carousel__dot::before { content: ''; display: block; width: 10px; height: 10px; border-radius: 50%; background: var(--color-border); transition: background-color 0.2s ease; }
+.carousel__dot.active::before { background: var(--color-text); }
 .lightbox { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(254, 254, 254, 0.98); z-index: 2000; align-items: center; justify-content: center; padding: var(--space-lg); }
 .lightbox.active { display: flex; }
 .lightbox__content { max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; align-items: center; }
@@ -607,7 +608,7 @@ function basePage(locale: Locale, title: string, description: string, content: s
               const giTitle = gi.querySelector('.gallery__title');
               const giMeta = gi.querySelector('.gallery__meta');
               return {
-                src: giImg ? giImg.src.replace('/thumbs/', '/full/') : '',
+                src: giImg ? giImg.src.replace('/thumbs/', '/full/').replace('/medium/', '/full/') : '',
                 title: giTitle ? giTitle.textContent : '',
                 meta: giMeta ? giMeta.textContent : ''
               };
@@ -715,7 +716,7 @@ export function renderHome(locale: Locale, paintings: PaintingsData): string {
         <div class="carousel__slides">
           ${paintings.carousel.map((slide, i) => `
             <div class="carousel__slide${i === 0 ? ' active' : ''}" data-index="${i}">
-              <img src="/images/full/${escapeAttr(slide.filename)}" alt="${getLocalized(slide.alt, locale)}" width="1200" height="800" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'}>
+              <img src="/images/medium/${escapeAttr(slide.filename)}" srcset="/images/medium/${escapeAttr(slide.filename)} 800w, /images/full/${escapeAttr(slide.filename)} 1600w" sizes="100vw" alt="${getLocalized(slide.alt, locale)}" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'} style="width: 100%; height: 100%; object-fit: contain;">
             </div>
           `).join('')}
         </div>
@@ -791,7 +792,7 @@ export function renderPaintings(locale: Locale, paintings: PaintingsData, year: 
             : '';
           return `
             <div class="gallery__item">
-              <img src="/images/full/${escapeAttr(art.filename)}" alt="${getLocalized(art.title, locale)}" class="gallery__image" loading="lazy" decoding="async">
+              <img src="/images/medium/${escapeAttr(art.filename)}" srcset="/images/medium/${escapeAttr(art.filename)} 800w, /images/full/${escapeAttr(art.filename)} 1600w" sizes="(max-width: 800px) 100vw, 800px" alt="${getLocalized(art.title, locale)}" class="gallery__image" loading="lazy" decoding="async">
               <div class="gallery__info">
                 <h3 class="gallery__title">${getLocalized(art.title, locale)}</h3>
                 <p class="gallery__meta">${getLocalized(art.medium, locale)}, ${escapeHtml(art.dimensions)}${status}</p>
@@ -895,7 +896,7 @@ export function renderWatercolorsSeries(locale: Locale, watercolors: Watercolors
       <div class="gallery__grid">
         ${series.artworks.map(art => `
           <div class="gallery__item">
-            <img src="/images/full/${escapeAttr(art.filename)}" alt="${getLocalized(art.title, locale)}" class="gallery__image" loading="lazy" decoding="async">
+            <img src="/images/medium/${escapeAttr(art.filename)}" srcset="/images/medium/${escapeAttr(art.filename)} 800w, /images/full/${escapeAttr(art.filename)} 1600w" sizes="(max-width: 800px) 100vw, 800px" alt="${getLocalized(art.title, locale)}" class="gallery__image" loading="lazy" decoding="async">
             <div class="gallery__info">
               <h3 class="gallery__title">${getLocalized(art.title, locale)}</h3>
               <p class="gallery__meta">${getLocalized(art.medium, locale)}, ${escapeHtml(art.dimensions)}</p>
