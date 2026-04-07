@@ -46,6 +46,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(pathname, `https://${mainDomain}`), 301)
   }
 
+  // Permanent redirect for root → default locale (SEO: avoids "page with redirect" warning)
+  if (pathname === '/') {
+    return addSecurityHeaders(NextResponse.redirect(new URL('/cs/', request.url), 301))
+  }
+
   // Handle API routes FIRST - no i18n, just security headers
   if (pathname.startsWith('/api/')) {
     return addSecurityHeaders(NextResponse.next())
