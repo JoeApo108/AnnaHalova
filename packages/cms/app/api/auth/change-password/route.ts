@@ -1,5 +1,5 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare'
-import { requireAuth, hashPassword, verifyPassword } from '@/lib/auth'
+import { requireAuth, hashPassword, verifyPassword, createToken, logAuthEvent } from '@/lib/auth'
 import { checkRateLimit, rateLimitResponse } from '@/lib/rate-limit'
 import { changePasswordSchema, validateRequest } from '@/lib/validation'
 
@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   if (user instanceof Response) return user
 
   // Rate limiting: 3 attempts per hour per user
-  const rateLimit = checkRateLimit(user.id, 'passwordChange')
+  const rateLimit = await checkRateLimit(env, user.id, 'passwordChange')
   if (!rateLimit.allowed) {
     return rateLimitResponse(rateLimit)
   }
@@ -36,11 +36,25 @@ export async function POST(request: Request) {
     return Response.json({ error: 'Current password is incorrect' }, { status: 401 })
   }
 
-  // Hash and save new password
+  // Hash and save new password. Bump token_version to revoke all existing sessions.
   const newHash = await hashPassword(newPassword)
-  await env.DB.prepare(
-    'UPDATE users SET password_hash = ? WHERE id = ?'
-  ).bind(newHash, user.id).run()
+  const updated = await env.DB.prepare(
+    'UPDATE users SET password_hash = ?, token_version = token_version + 1 WHERE id = ? RETURNING token_version'
+  ).bind(newHash, user.id).first<{ token_version: number }>()
 
-  return Response.json({ success: true })
+  await logAuthEvent(env, 'password_change', { email: user.email, userId: user.id })
+
+  // Re-mint the current session so the user stays logged in here while every
+  // other session is invalidated by the bumped token_version.
+  const token = await createToken({ id: user.id, role: user.role, tv: updated?.token_version ?? 0 }, env.JWT_SECRET)
+
+  return new Response(
+    JSON.stringify({ success: true }),
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'Set-Cookie': `auth_token=${token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=14400`,
+      },
+    }
+  )
 }

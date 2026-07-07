@@ -199,6 +199,41 @@ const routes = {
   en: { paintings: 'paintings', watercolors: 'watercolors', about: 'about', contact: 'contact' }
 };
 
+// Section route keys, used to translate a path's section slug between locales for hreflang.
+const ROUTE_KEYS = ['paintings', 'watercolors', 'about', 'contact'] as const;
+
+/**
+ * Build per-page hreflang alternate URLs (with trailing slashes) from a page path
+ * like "/en/paintings/2025". Translates the section slug to the other locale and
+ * preserves the locale-independent suffix (year / series id). The homepage maps to
+ * "/cs/" and "/en/". Falls back to a locale-prefix swap for unknown sections.
+ */
+function buildHreflangUrls(baseUrl: string, pagePath: string): { cs: string; en: string } {
+  const parts = pagePath.split('/').filter(Boolean); // e.g. ['en', 'paintings', '2025']
+  const section = parts[1];
+  const suffix = parts.slice(2).join('/'); // year or series id, same in both locales
+
+  let csTail = '';
+  let enTail = '';
+  if (section) {
+    const key = ROUTE_KEYS.find((k) => routes.cs[k] === section || routes.en[k] === section);
+    if (key) {
+      csTail = `/${routes.cs[key]}${suffix ? `/${suffix}` : ''}`;
+      enTail = `/${routes.en[key]}${suffix ? `/${suffix}` : ''}`;
+    } else {
+      // Unknown section: keep the path as-is under both locale prefixes.
+      const tail = `/${parts.slice(1).join('/')}`;
+      csTail = tail;
+      enTail = tail;
+    }
+  }
+
+  return {
+    cs: `${baseUrl}/cs${csTail}/`,
+    en: `${baseUrl}/en${enTail}/`,
+  };
+}
+
 // Navigation labels
 const nav = {
   cs: { paintings: 'Malby', watercolors: 'Akvarely, Tuše', about: 'O mně', contact: 'Kontakt' },
@@ -285,6 +320,12 @@ function basePage(locale: Locale, title: string, description: string, content: s
   const safeDesc = escapeAttr(description);
 
   const pagePath = seo?.path || `/${locale}`;
+  // Canonical must carry a trailing slash to match sitemap.ts URLs and the R2
+  // directory layout (site/<path>/index.html). A no-slash canonical mismatches
+  // the crawled sitemap URL and triggers GSC "Alternate page with proper canonical tag".
+  const canonicalUrl = `${baseUrl}${pagePath}/`;
+  // Per-page hreflang alternates (cs ⇄ en translation of this exact page).
+  const hreflang = buildHreflangUrls(baseUrl, pagePath);
   const ogType = seo?.type || 'website';
   const ogLocale = locale === 'cs' ? 'cs_CZ' : 'en_US';
 
@@ -336,7 +377,7 @@ function basePage(locale: Locale, title: string, description: string, content: s
       "@type": "ImageGallery",
       "name": title,
       "description": description,
-      "url": baseUrl + pagePath,
+      "url": canonicalUrl,
       "numberOfItems": seo.artworkCount,
       "author": {
         "@type": "Person",
@@ -360,7 +401,8 @@ function basePage(locale: Locale, title: string, description: string, content: s
   }
 
   const structuredDataScript = structuredDataArray
-    .map(data => `<script type="application/ld+json">${JSON.stringify(data)}</script>`)
+    // Escape `<` so a URL can't break out of the JSON-LD script block
+    .map(data => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`)
     .join('\n  ');
 
   return `<!DOCTYPE html>
@@ -371,19 +413,19 @@ function basePage(locale: Locale, title: string, description: string, content: s
   <title>${safeTitle}</title>
   <meta name="description" content="${safeDesc}">
   <meta name="robots" content="index, follow, noimageai, noai">
-  <link rel="canonical" href="${baseUrl}${pagePath}">
+  <link rel="canonical" href="${escapeAttr(canonicalUrl)}">
   <meta property="og:title" content="${safeTitle}">
   <meta property="og:description" content="${safeDesc}">
   <meta property="og:type" content="${ogType}">
-  <meta property="og:url" content="${baseUrl}${pagePath}">
+  <meta property="og:url" content="${escapeAttr(canonicalUrl)}">
   <meta property="og:locale" content="${ogLocale}">
   <meta property="og:site_name" content="Anna Hálová">${ogImageTags}
   <meta name="twitter:card" content="${seo?.image ? 'summary_large_image' : 'summary'}">
   <meta name="twitter:title" content="${safeTitle}">
   <meta name="twitter:description" content="${safeDesc}">
-  <link rel="alternate" hreflang="cs" href="${baseUrl}/cs">
-  <link rel="alternate" hreflang="en" href="${baseUrl}/en">
-  <link rel="alternate" hreflang="x-default" href="${baseUrl}/cs">
+  <link rel="alternate" hreflang="cs" href="${escapeAttr(hreflang.cs)}">
+  <link rel="alternate" hreflang="en" href="${escapeAttr(hreflang.en)}">
+  <link rel="alternate" hreflang="x-default" href="${escapeAttr(hreflang.cs)}">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">

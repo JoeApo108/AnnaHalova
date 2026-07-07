@@ -1,5 +1,5 @@
 // lib/rate-limit.ts
-// Rate limiting for authentication endpoints using D1 storage
+// Durable rate limiting backed by D1 (shared across all Worker isolates)
 
 interface RateLimitResult {
   allowed: boolean
@@ -14,48 +14,34 @@ export const RATE_LIMITS = {
   upload: { windowMs: 60 * 1000, maxAttempts: 10 },         // 10 uploads per minute
 } as const
 
-// In-memory store for rate limiting (per-isolate, resets on cold start)
-// For production with multiple workers, consider using D1 or KV
-const rateLimitStore = new Map<string, { count: number; resetAt: number }>()
-
-export function checkRateLimit(
+// Atomic check-and-increment against the rate_limits table. A single UPSERT either
+// starts a fresh window (when the previous one expired) or increments the counter,
+// so the limit holds globally instead of per-isolate.
+export async function checkRateLimit(
+  env: CloudflareEnv,
   identifier: string,
   action: keyof typeof RATE_LIMITS
-): RateLimitResult {
+): Promise<RateLimitResult> {
   const config = RATE_LIMITS[action]
   const key = `${action}:${identifier}`
   const now = Date.now()
+  const freshReset = now + config.windowMs
 
-  const record = rateLimitStore.get(key)
+  const row = await env.DB.prepare(`
+    INSERT INTO rate_limits (key, count, reset_at) VALUES (?1, 1, ?2)
+    ON CONFLICT(key) DO UPDATE SET
+      count = CASE WHEN rate_limits.reset_at <= ?3 THEN 1 ELSE rate_limits.count + 1 END,
+      reset_at = CASE WHEN rate_limits.reset_at <= ?3 THEN ?2 ELSE rate_limits.reset_at END
+    RETURNING count, reset_at
+  `).bind(key, freshReset, now).first<{ count: number; reset_at: number }>()
 
-  // If no record or window expired, create new window
-  if (!record || now > record.resetAt) {
-    const resetAt = now + config.windowMs
-    rateLimitStore.set(key, { count: 1, resetAt })
-    return {
-      allowed: true,
-      remaining: config.maxAttempts - 1,
-      resetAt,
-    }
-  }
-
-  // Increment count
-  record.count++
-  rateLimitStore.set(key, record)
-
-  // Check if over limit
-  if (record.count > config.maxAttempts) {
-    return {
-      allowed: false,
-      remaining: 0,
-      resetAt: record.resetAt,
-    }
-  }
+  const count = row?.count ?? 1
+  const resetAt = row?.reset_at ?? freshReset
 
   return {
-    allowed: true,
-    remaining: config.maxAttempts - record.count,
-    resetAt: record.resetAt,
+    allowed: count <= config.maxAttempts,
+    remaining: Math.max(0, config.maxAttempts - count),
+    resetAt,
   }
 }
 

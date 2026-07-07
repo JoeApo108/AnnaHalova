@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   if (user instanceof Response) return user
 
   // Rate limiting: 10 uploads per minute per user
-  const rateLimit = checkRateLimit(user.id, 'upload')
+  const rateLimit = await checkRateLimit(env, user.id, 'upload')
   if (!rateLimit.allowed) {
     return rateLimitResponse(rateLimit)
   }

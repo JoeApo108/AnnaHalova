@@ -43,9 +43,9 @@ export default {
     const url = new URL(request.url);
     let path = url.pathname;
 
-    // Root redirects to Czech
+    // Root redirects to Czech (301 permanent, trailing slash to match sitemap + canonical)
     if (path === '/') {
-      return Response.redirect(`${url.origin}/cs`, 302);
+      return Response.redirect(`${url.origin}/cs/`, 301);
     }
 
     // Proxy sitemap.xml to backend

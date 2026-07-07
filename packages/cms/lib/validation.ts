@@ -33,7 +33,8 @@ export const galleryCreateSchema = z.object({
   description_en: z.string().max(1000).optional(),
   category: z.enum(['painting', 'watercolor', 'ink']).nullable().optional(),
   year: z.number().int().min(1900).max(2100).nullable().optional(),
-  series_key: z.string().max(100).nullable().optional(),
+  // Security: whitelist like `slug` — becomes a public URL segment (prevents stored XSS)
+  series_key: z.string().max(100).regex(/^[a-z0-9-]+$/, 'Series key must be lowercase alphanumeric with hyphens').nullable().optional(),
   is_visible: z.boolean().default(true),
   sort_order: z.number().int().default(0),
 })
