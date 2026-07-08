@@ -59,6 +59,7 @@ export async function POST(request: Request) {
   const original = formData.get('original') as File | null
   const thumb = formData.get('thumb') as Blob | null
   const full = formData.get('full') as Blob | null
+  const medium = formData.get('medium') as Blob | null
   const legacyFile = formData.get('file') as File | null
 
   const mainFile = original || legacyFile
@@ -90,8 +91,27 @@ export async function POST(request: Request) {
     return Response.json({ error: 'File content does not match expected image format.' }, { status: 400 })
   }
 
+  // Derived variants are client-generated WebP and stored in R2 unmodified,
+  // so they get the same size cap and a content check as the original
+  const derivedVariants: Array<[string, Blob | null]> = [
+    ['thumb', thumb],
+    ['full', full],
+    ['medium', medium],
+  ]
+  for (const [name, blob] of derivedVariants) {
+    if (!blob) continue
+    if (blob.size > 10 * 1024 * 1024) {
+      return Response.json({ error: `${name} variant too large. Maximum 10MB.` }, { status: 400 })
+    }
+    if (!(await validateMagicBytes(blob, 'image/webp'))) {
+      return Response.json({ error: `${name} variant is not a valid WebP image.` }, { status: 400 })
+    }
+  }
+
   const timestamp = Date.now()
-  const ext = (mainFile.name.split('.').pop() || 'jpg').toLowerCase()
+  const rawExt = (mainFile.name.split('.').pop() || 'jpg').toLowerCase()
+  // Whitelist the extension — it comes from the client filename
+  const ext = /^(jpe?g|png|webp)$/.test(rawExt) ? rawExt : 'jpg'
   const baseFilename = artworkId && artworkId !== 'new'
     ? artworkId
     : String(timestamp)
@@ -126,7 +146,6 @@ export async function POST(request: Request) {
     )
 
     // Upload medium size (fall back to full if canvas resize failed)
-    const medium = formData.get('medium') as File | null
     const mediumData = medium || full || mainFile
     uploads.push(
       env.R2.put(`images/medium/${thumbFilename}`, await mediumData.arrayBuffer(), {
