@@ -41,7 +41,7 @@ export async function middleware(request: NextRequest) {
   const host = request.headers.get('host') || ''
 
   // Redirect public routes from CMS domain to main domain
-  if (host.startsWith('cms.') && !pathname.startsWith('/admin') && !pathname.startsWith('/api/') && pathname !== '/sitemap.xml') {
+  if (host.startsWith('cms.') && !pathname.startsWith('/admin') && !pathname.startsWith('/api/')) {
     const mainDomain = host.replace('cms.', '')
     return NextResponse.redirect(new URL(pathname, `https://${mainDomain}`), 301)
   }

@@ -48,9 +48,9 @@ export default {
       return Response.redirect(`${url.origin}/cs/`, 301);
     }
 
-    // Proxy sitemap.xml to backend
+    // Proxy sitemap.xml to the D1-backed sitemap on the CMS worker
     if (path === '/sitemap.xml') {
-      const sitemapResponse = await fetch('https://cms.annahalova.cz/sitemap.xml');
+      const sitemapResponse = await fetch('https://cms.annahalova.cz/api/sitemap');
       return addSecurityHeaders(new Response(sitemapResponse.body, {
         status: sitemapResponse.status,
         headers: { 'Content-Type': 'application/xml', 'Cache-Control': 'public, max-age=3600' }
