@@ -214,7 +214,9 @@ export default function ArtworkEditPage() {
           <h2>Image</h2>
           <ImageUploader
             artworkId={artwork.id || 'new'}
-            currentImage={artwork.image_url}
+            // Preview from filename like the list page — image_url is null for
+            // seed artworks and points at the multi-MB original for uploads
+            currentImage={artwork.filename ? `/api/images/thumbs/${artwork.filename}` : artwork.image_url}
             onImageProcessed={(processed) => setPendingImage(processed)}
             onError={(msg) => showToast(msg, 'error')}
           />
