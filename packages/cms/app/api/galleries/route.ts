@@ -1,12 +1,14 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 // app/api/galleries/route.ts
-// Security: GET is intentionally public (serves published portfolio data)
-// POST requires authentication
+// Security: all methods require auth — GET serves LIVE db state (hidden
+// galleries, snapshots), not published data; only admin pages call this API
 import { requireAuth } from '@/lib/auth'
 import { galleryCreateSchema, validateRequest } from '@/lib/validation'
 
-export async function GET(_request: Request) {
+export async function GET(request: Request) {
   const { env } = getCloudflareContext() as { env: CloudflareEnv }
+  const user = await requireAuth(request, env)
+  if (user instanceof Response) return user
 
   try {
     const galleries = await env.DB.prepare(`

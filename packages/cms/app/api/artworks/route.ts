@@ -1,7 +1,7 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 // app/api/artworks/route.ts
-// Security: GET is intentionally public (serves published portfolio data)
-// POST/PUT/DELETE require authentication
+// Security: all methods require auth — GET serves LIVE db state (drafts,
+// private artworks), not published data; only admin pages call this API
 import { requireAuth } from '@/lib/auth'
 import { artworkCreateSchema, validateRequest } from '@/lib/validation'
 
@@ -26,6 +26,9 @@ function normalize(str: string): string {
 
 export async function GET(request: Request) {
   const { env } = getCloudflareContext() as { env: CloudflareEnv }
+  const user = await requireAuth(request, env)
+  if (user instanceof Response) return user
+
   const url = new URL(request.url)
 
   const category = url.searchParams.get('category')
