@@ -6,6 +6,7 @@ import { LightboxProvider } from '@/context/LightboxContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Lightbox from '@/components/Lightbox'
+import SetHtmlLang from '@/components/SetHtmlLang'
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 import '@/app/globals.css'
 
@@ -63,22 +64,22 @@ export default async function LocaleLayout({
   const messages = await getMessages()
   const themeCSS = await getThemeCSS()
 
+  // No <html>/<body> here — nested layouts nest, they don't override, so
+  // rendering them again produced invalid nested documents (and en pages
+  // kept the root's lang="cs"). React hoists the link/style tags to <head>.
   return (
-    <html lang={locale}>
-      <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        {themeCSS && <style>{themeCSS}</style>}
-      </head>
-      <body>
-        <NextIntlClientProvider messages={messages}>
-          <LightboxProvider>
-            <Header locale={locale as 'cs' | 'en'} />
-            <main>{children}</main>
-            <Lightbox />
-            <Footer />
-          </LightboxProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <>
+      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      {themeCSS && <style href="theme-css" precedence="high">{themeCSS}</style>}
+      <SetHtmlLang locale={locale} />
+      <NextIntlClientProvider messages={messages}>
+        <LightboxProvider>
+          <Header locale={locale as 'cs' | 'en'} />
+          <main>{children}</main>
+          <Lightbox />
+          <Footer />
+        </LightboxProvider>
+      </NextIntlClientProvider>
+    </>
   )
 }

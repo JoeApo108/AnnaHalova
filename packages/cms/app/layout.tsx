@@ -1,4 +1,5 @@
-// Root layout - locale-specific layout overrides <html> with correct lang attribute
+// Root layout — sole owner of <html>/<body>. It sits above the [locale]
+// segment, so lang defaults to "cs"; SetHtmlLang corrects it client-side.
 import type { Metadata, Viewport } from 'next'
 
 export const viewport: Viewport = {
