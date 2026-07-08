@@ -15,10 +15,10 @@ const securityHeaders = {
   // Submission is irreversible — do not submit without verifying all subdomains support HTTPS.
   'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
   'Cross-Origin-Opener-Policy': 'same-origin',
-  // CSP: Next.js requires unsafe-inline and unsafe-eval for hydration
+  // CSP: Next.js needs unsafe-inline for hydration; eval is only used in dev
   'Content-Security-Policy': [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com",  // Next.js hydration + CF analytics
+    "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",  // Next.js hydration + CF analytics
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: blob: https://*.r2.cloudflarestorage.com https://images.annahalova.cz",
     "font-src 'self' https://fonts.gstatic.com",
