@@ -59,10 +59,12 @@ interface _GalleryItemRow {
 }
 
 // Transform database row to Artwork type
+// Note: filename is the optimized .webp key — image_url points at the raw
+// multi-MB original and must not be used for display
 function rowToArtwork(row: ArtworkRow): Artwork {
   return {
     id: row.id,
-    filename: row.image_url || row.filename,
+    filename: row.filename,
     title: {
       cs: row.title_cs,
       en: row.title_en,
@@ -98,7 +100,7 @@ export async function getCarouselSlides(): Promise<CarouselSlide[]> {
   `).all<CarouselRow>()
 
   return items.results.map((row: CarouselRow) => ({
-    filename: row.image_url || row.filename,
+    filename: row.filename,
     alt: {
       cs: row.title_cs,
       en: row.title_en,
@@ -235,7 +237,7 @@ export async function getWatercolorSeriesById(id: string): Promise<WatercolorSer
       en: gallery.name_en,
     },
     year: gallery.year || 2025,
-    preview: previewItems.results.map((r: PreviewRow) => r.image_url || r.filename),
+    preview: previewItems.results.map((r: PreviewRow) => r.filename),
     artworks: items.results.map(rowToArtwork),
   }
 }
