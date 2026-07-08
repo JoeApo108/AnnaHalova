@@ -38,6 +38,11 @@ export async function checkRateLimit(
   const count = row?.count ?? 1
   const resetAt = row?.reset_at ?? freshReset
 
+  // Opportunistic cleanup: rows for other keys whose window expired are dead
+  // weight (one permanent row per bot IP otherwise). Rows are few, so an
+  // unconditional DELETE per check is cheaper than scheduling a cron.
+  await env.DB.prepare('DELETE FROM rate_limits WHERE reset_at <= ?').bind(now).run()
+
   return {
     allowed: count <= config.maxAttempts,
     remaining: Math.max(0, config.maxAttempts - count),
