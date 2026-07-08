@@ -81,26 +81,9 @@ export async function POST(request: Request) {
       contactData as ContactData
     )
 
-    // 5. Clean up old site files from R2 (removes deleted galleries)
-    // Preserve static assets (favicons, manifest) that don't change
-    const preserveFiles = new Set([
-      'site/favicon.ico',
-      'site/favicon.svg',
-      'site/apple-touch-icon.png',
-      'site/site.webmanifest'
-    ])
-    const oldFiles = await env.R2.list({ prefix: 'site/' })
-    if (oldFiles.objects.length > 0) {
-      const filesToDelete = oldFiles.objects.filter(
-        (obj: { key: string }) => !preserveFiles.has(obj.key)
-      )
-      await Promise.all(
-        filesToDelete.map((obj: { key: string }) => env.R2.delete(obj.key))
-      )
-      console.log(`Deleted ${filesToDelete.length} old HTML files from R2 (preserved ${preserveFiles.size} static assets)`)
-    }
-
-    // 6. Upload all pages to R2 (HTML and robots.txt)
+    // 5. Upload all pages to R2 (HTML and robots.txt)
+    // Upload BEFORE deleting old files — if an upload fails mid-publish,
+    // the previous site must stay live, never an empty bucket
     const uploadPromises = Object.entries(pages).map(([path, content]) => {
       // Set correct content type based on file extension
       const contentType = path.endsWith('.txt')
@@ -114,6 +97,26 @@ export async function POST(request: Request) {
     await Promise.all(uploadPromises)
 
     console.log(`Published ${Object.keys(pages).length} HTML pages to R2`)
+
+    // 6. Clean up stale site files from R2 (removes deleted galleries)
+    // Preserve static assets (favicons, manifest) and everything just uploaded
+    const preserveFiles = new Set([
+      'site/favicon.ico',
+      'site/favicon.svg',
+      'site/apple-touch-icon.png',
+      'site/site.webmanifest'
+    ])
+    const uploadedKeys = new Set(Object.keys(pages).map(path => `site/${path}`))
+    const oldFiles = await env.R2.list({ prefix: 'site/' })
+    const staleFiles = oldFiles.objects.filter(
+      (obj: { key: string }) => !preserveFiles.has(obj.key) && !uploadedKeys.has(obj.key)
+    )
+    if (staleFiles.length > 0) {
+      await Promise.all(
+        staleFiles.map((obj: { key: string }) => env.R2.delete(obj.key))
+      )
+      console.log(`Deleted ${staleFiles.length} stale HTML files from R2 (preserved ${preserveFiles.size} static assets)`)
+    }
 
     // 7. Save published snapshots for discard feature
     await savePublishedSnapshots(env)
