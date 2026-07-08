@@ -19,6 +19,11 @@ export async function generateMetadata({
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'home' })
 
+  // Derive og:image from the first carousel slide like the static renderer
+  // does — a hardcoded filename went stale when images moved to WebP
+  const slides = await getCarouselSlides()
+  const ogImage = slides.length > 0 ? getImageSrc(slides[0].filename, 'full') : undefined
+
   return {
     title: t('title'),
     description: t('description'),
@@ -26,7 +31,7 @@ export async function generateMetadata({
     openGraph: {
       title: t('title'),
       description: t('description'),
-      images: ['/images/full/010---lilith.jpg'],
+      images: ogImage ? [ogImage] : [],
     },
   }
 }
