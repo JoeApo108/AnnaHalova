@@ -135,6 +135,7 @@ main { margin-top: var(--header-height); }
 .carousel__dot { width: 40px; height: 40px; border: none; background: transparent; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s ease; }
 .carousel__dot::before { content: ''; display: block; width: 10px; height: 10px; border-radius: 50%; background: var(--color-border); transition: background-color 0.2s ease; }
 .carousel__dot.active::before { background: var(--color-text); }
+.carousel__pause { background: none; border: none; padding: 0 8px; font-size: 12px; line-height: 1; color: var(--color-text); cursor: pointer; }
 .lightbox { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(254, 254, 254, 0.98); z-index: 2000; align-items: center; justify-content: center; padding: var(--space-lg); }
 .lightbox.active { display: flex; }
 .lightbox__content { max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; align-items: center; }
@@ -153,6 +154,7 @@ main { margin-top: var(--header-height); }
 .gallery--list .gallery__image { aspect-ratio: auto; max-height: 70vh; object-fit: contain; }
 .gallery__item { cursor: pointer; transition: transform 0.2s ease; }
 .gallery__item:hover { transform: translateY(-4px); }
+.gallery__item:focus-visible { outline: 2px solid var(--color-text); outline-offset: 2px; }
 .gallery__image { width: 100%; aspect-ratio: 4/5; object-fit: cover; margin-bottom: var(--space-sm); }
 .gallery__title { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
 .gallery__meta { font-size: 14px; color: var(--color-text-light); }
@@ -310,6 +312,7 @@ interface SEOData {
   imageAlt?: string;       // og:image:alt text
   type?: string;           // og:type override (default: "website")
   artworkCount?: number;   // For gallery structured data
+  artworks?: Array<{ name: string; image: string; medium?: string }>; // per-artwork JSON-LD entries
 }
 
 function basePage(locale: Locale, title: string, description: string, content: string, activePage: string = '', seo?: SEOData): string {
@@ -382,7 +385,17 @@ function basePage(locale: Locale, title: string, description: string, content: s
       "author": {
         "@type": "Person",
         "name": "Anna Hálová"
-      }
+      },
+      // Name each artwork so individual paintings are represented in
+      // Google Images, not just the page-level gallery
+      ...(seo.artworks && seo.artworks.length > 0 && {
+        "associatedMedia": seo.artworks.map(a => ({
+          "@type": "ImageObject",
+          "name": a.name,
+          "contentUrl": `${imageBaseUrl}/images/full/${a.image}`,
+          ...(a.medium && { "description": a.medium })
+        }))
+      })
     });
   }
 
@@ -452,7 +465,7 @@ function basePage(locale: Locale, title: string, description: string, content: s
   ${footer()}
 
   <!-- Lightbox -->
-  <div class="lightbox" id="lightbox">
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="${locale === 'cs' ? 'Náhled obrazu' : 'Artwork view'}">
     <button class="lightbox__close" aria-label="Close">×</button>
     <button class="lightbox__nav lightbox__prev" aria-label="Previous">‹</button>
     <button class="lightbox__nav lightbox__next" aria-label="Next">›</button>
@@ -515,6 +528,7 @@ function basePage(locale: Locale, title: string, description: string, content: s
 
       let current = 0;
       let interval;
+      let userPaused = false;
 
       function showSlide(index) {
         slides.forEach((s, i) => {
@@ -535,12 +549,29 @@ function basePage(locale: Locale, title: string, description: string, content: s
       }
 
       function startAutoplay() {
+        if (userPaused) return;
         interval = setInterval(nextSlide, 5000);
       }
 
       function stopAutoplay() {
         clearInterval(interval);
       }
+
+      // WCAG 2.2.2: explicit pause control for the auto-advance
+      const pauseBtn = carousel.querySelector('.carousel__pause');
+      if (pauseBtn) {
+        pauseBtn.addEventListener('click', () => {
+          userPaused = !userPaused;
+          pauseBtn.textContent = userPaused ? '▶' : '❚❚';
+          pauseBtn.setAttribute('aria-pressed', String(userPaused));
+          stopAutoplay();
+          startAutoplay();
+        });
+      }
+
+      // Pause while the visitor is looking at (hovering) a slide
+      carousel.addEventListener('mouseenter', stopAutoplay);
+      carousel.addEventListener('mouseleave', startAutoplay);
 
       // Dot navigation
       dots.forEach(dot => {
@@ -551,8 +582,11 @@ function basePage(locale: Locale, title: string, description: string, content: s
         });
       });
 
-      // Keyboard navigation
+      // Keyboard navigation — the lightbox owns arrow keys while open,
+      // otherwise the carousel moves invisibly behind the modal
       document.addEventListener('keydown', (e) => {
+        const lb = document.getElementById('lightbox');
+        if (lb && lb.classList.contains('active')) return;
         if (e.key === 'ArrowRight') { stopAutoplay(); nextSlide(); startAutoplay(); }
         if (e.key === 'ArrowLeft') { stopAutoplay(); prevSlide(); startAutoplay(); }
       });
@@ -590,6 +624,7 @@ function basePage(locale: Locale, title: string, description: string, content: s
 
       let items = [];
       let currentIndex = 0;
+      let lastFocused = null;
 
       function open(galleryItems, index) {
         items = galleryItems;
@@ -597,11 +632,15 @@ function basePage(locale: Locale, title: string, description: string, content: s
         show();
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
+        // Modal focus: move into the dialog, restore to trigger on close
+        lastFocused = document.activeElement;
+        closeBtn.focus();
       }
 
       function close() {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
+        if (lastFocused && lastFocused.focus) lastFocused.focus();
       }
 
       function show() {
@@ -637,6 +676,14 @@ function basePage(locale: Locale, title: string, description: string, content: s
         if (e.key === 'Escape') close();
         if (e.key === 'ArrowLeft') prev();
         if (e.key === 'ArrowRight') next();
+        // Trap Tab inside the dialog
+        if (e.key === 'Tab') {
+          const focusables = [closeBtn, prevBtn, nextBtn];
+          const first = focusables[0];
+          const last = focusables[focusables.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
       });
 
       // Make gallery items clickable
@@ -661,6 +708,14 @@ function basePage(locale: Locale, title: string, description: string, content: s
             });
 
             open(lightboxItems, index);
+          });
+
+          // Keyboard activation (items are role="button" tabindex="0")
+          item.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              item.click();
+            }
           });
         });
       });
@@ -770,6 +825,7 @@ export function renderHome(locale: Locale, paintings: PaintingsData): string {
           ${paintings.carousel.map((_, i) => `
             <button class="carousel__dot${i === 0 ? ' active' : ''}" data-index="${i}" aria-label="Slide ${i + 1}"></button>
           `).join('')}
+          <button class="carousel__pause" aria-label="${locale === 'cs' ? 'Pozastavit automatické přehrávání' : 'Pause autoplay'}" aria-pressed="false">❚❚</button>
         </div>
       </section>`
     : '';
@@ -782,7 +838,7 @@ export function renderHome(locale: Locale, paintings: PaintingsData): string {
     <section class="gallery container">
       <div class="gallery__grid">
         ${paintings.featured.map(art => `
-          <div class="gallery__item">
+          <div class="gallery__item" role="button" tabindex="0">
             <img src="/images/thumbs/${escapeAttr(art.filename)}" alt="${getLocalized(art.title, locale)}" class="gallery__image" width="300" height="375" loading="lazy" decoding="async">
             <div class="gallery__info">
               <h3 class="gallery__title">${getLocalized(art.title, locale)}</h3>
@@ -837,7 +893,7 @@ export function renderPaintings(locale: Locale, paintings: PaintingsData, year: 
             ? (locale === 'cs' ? ' · VĚNOVÁNO' : ' · DONATED')
             : '';
           return `
-            <div class="gallery__item">
+            <div class="gallery__item" role="button" tabindex="0">
               <img src="/images/medium/${escapeAttr(art.filename)}" srcset="/images/medium/${escapeAttr(art.filename)} 800w, /images/full/${escapeAttr(art.filename)} 1600w" sizes="(max-width: 800px) 100vw, 800px" alt="${getLocalized(art.title, locale)}" class="gallery__image" loading="lazy" decoding="async">
               <div class="gallery__info">
                 <h3 class="gallery__title">${getLocalized(art.title, locale)}</h3>
@@ -863,7 +919,12 @@ export function renderPaintings(locale: Locale, paintings: PaintingsData, year: 
     path: `/${locale}/${paintingsRoute}/${year}`,
     image: firstArtwork?.filename,
     imageAlt: firstArtwork ? getLocalized(firstArtwork.title, locale) : undefined,
-    artworkCount: artworks.length
+    artworkCount: artworks.length,
+    artworks: artworks.map(a => ({
+      name: getLocalized(a.title, locale),
+      image: a.filename,
+      medium: getLocalized(a.medium, locale)
+    }))
   });
 }
 
@@ -891,7 +952,7 @@ export function renderWatercolors(locale: Locale, watercolors: WatercolorsData):
         <h2 style="margin-bottom: 1.5rem">${getLocalized(s.title, locale)}, ${s.year}</h2>
         <div class="gallery__grid">
           ${s.preview.slice(0, 3).map(filename => `
-            <div class="gallery__item">
+            <div class="gallery__item" role="button" tabindex="0">
               <img src="/images/thumbs/${escapeAttr(filename)}" alt="${getLocalized(s.title, locale)}" class="gallery__image" width="300" height="375" loading="lazy" decoding="async">
             </div>
           `).join('')}
@@ -941,7 +1002,7 @@ export function renderWatercolorsSeries(locale: Locale, watercolors: Watercolors
     <section class="gallery gallery--list">
       <div class="gallery__grid">
         ${series.artworks.map(art => `
-          <div class="gallery__item">
+          <div class="gallery__item" role="button" tabindex="0">
             <img src="/images/medium/${escapeAttr(art.filename)}" srcset="/images/medium/${escapeAttr(art.filename)} 800w, /images/full/${escapeAttr(art.filename)} 1600w" sizes="(max-width: 800px) 100vw, 800px" alt="${getLocalized(art.title, locale)}" class="gallery__image" loading="lazy" decoding="async">
             <div class="gallery__info">
               <h3 class="gallery__title">${getLocalized(art.title, locale)}</h3>
@@ -966,7 +1027,12 @@ export function renderWatercolorsSeries(locale: Locale, watercolors: Watercolors
     path: `/${locale}/${watercolorsRoute}/${seriesId}`,
     image: firstArtwork?.filename,
     imageAlt: firstArtwork ? getLocalized(firstArtwork.title, locale) : seriesTitle,
-    artworkCount: series.artworks.length
+    artworkCount: series.artworks.length,
+    artworks: series.artworks.map(a => ({
+      name: getLocalized(a.title, locale),
+      image: a.filename,
+      medium: getLocalized(a.medium, locale)
+    }))
   });
 }
 

@@ -16,8 +16,23 @@ export default function GalleryItem({ artwork, locale, onClick }: GalleryItemPro
   const status = getStatusLabel(artwork.status, locale)
   const meta = `${medium}, ${artwork.dimensions}${status ? ` · ${status}` : ''}`
 
+  // Keyboard access: the lightbox is the only way to view art full-size,
+  // so the item must be focusable and Enter/Space-activatable
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      onClick()
+    }
+  }
+
   return (
-    <div className="gallery__item" onClick={onClick}>
+    <div
+      className="gallery__item"
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+    >
       <img
         src={getImageSrc(artwork.filename, 'thumbs')}
         alt={title}

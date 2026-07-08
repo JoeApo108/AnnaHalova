@@ -322,6 +322,16 @@ main {
   background-color: var(--color-text);
 }
 
+.carousel__pause {
+  background: none;
+  border: none;
+  padding: 0 var(--space-xs);
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
 /* ========================================
    Gallery Grid
    ======================================== */
@@ -342,6 +352,11 @@ main {
 
 .gallery__item:hover {
   transform: translateY(-4px);
+}
+
+.gallery__item:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
 }
 
 .gallery__image {

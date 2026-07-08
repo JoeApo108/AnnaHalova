@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, TouchEvent } from 'react'
 import { CarouselSlide } from '@/data/types'
 import { getLocalizedText } from '@/lib/data'
 import { getImageSrc } from '@/lib/images'
+import { useLightbox } from '@/context/LightboxContext'
 
 interface CarouselProps {
   slides: CarouselSlide[]
@@ -13,6 +14,11 @@ interface CarouselProps {
 export default function Carousel({ slides, locale }: CarouselProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [touchStart, setTouchStart] = useState(0)
+  // WCAG 2.2.2: auto-advance needs an explicit pause control; also pause
+  // while hovered/focused so users can look at a painting
+  const [userPaused, setUserPaused] = useState(false)
+  const [hoverPaused, setHoverPaused] = useState(false)
+  const { isOpen: lightboxOpen } = useLightbox()
 
   const goToSlide = useCallback((index: number) => {
     let newIndex = index
@@ -26,19 +32,22 @@ export default function Carousel({ slides, locale }: CarouselProps) {
 
   // Autoplay
   useEffect(() => {
+    if (userPaused || hoverPaused || lightboxOpen) return
     const interval = setInterval(nextSlide, 5000)
     return () => clearInterval(interval)
-  }, [nextSlide])
+  }, [nextSlide, userPaused, hoverPaused, lightboxOpen])
 
-  // Keyboard navigation
+  // Keyboard navigation — the lightbox owns arrow keys while open, otherwise
+  // both handlers fire and the carousel moves invisibly behind the modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (lightboxOpen) return
       if (e.key === 'ArrowLeft') prevSlide()
       if (e.key === 'ArrowRight') nextSlide()
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [nextSlide, prevSlide])
+  }, [nextSlide, prevSlide, lightboxOpen])
 
   // Touch handlers
   const handleTouchStart = (e: TouchEvent) => {
@@ -57,8 +66,20 @@ export default function Carousel({ slides, locale }: CarouselProps) {
     }
   }
 
+  const pauseLabel = locale === 'cs'
+    ? (userPaused ? 'Spustit automatické přehrávání' : 'Pozastavit automatické přehrávání')
+    : (userPaused ? 'Resume autoplay' : 'Pause autoplay')
+
   return (
-    <div className="carousel" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+    <div
+      className="carousel"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onMouseEnter={() => setHoverPaused(true)}
+      onMouseLeave={() => setHoverPaused(false)}
+      onFocus={() => setHoverPaused(true)}
+      onBlur={() => setHoverPaused(false)}
+    >
       <div
         className="carousel__slides"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -87,6 +108,14 @@ export default function Carousel({ slides, locale }: CarouselProps) {
             onClick={() => goToSlide(index)}
           />
         ))}
+        <button
+          className="carousel__pause"
+          aria-label={pauseLabel}
+          aria-pressed={userPaused}
+          onClick={() => setUserPaused(p => !p)}
+        >
+          {userPaused ? '▶' : '❚❚'}
+        </button>
       </div>
     </div>
   )

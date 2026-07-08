@@ -1,12 +1,14 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import { useLightbox } from '@/context/LightboxContext'
 
 export default function Lightbox() {
   const t = useTranslations('lightbox')
   const { isOpen, items, currentIndex, closeLightbox, nextImage, prevImage } = useLightbox()
+  const containerRef = useRef<HTMLDivElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -14,18 +16,47 @@ export default function Lightbox() {
       if (e.key === 'Escape') closeLightbox()
       if (e.key === 'ArrowLeft') prevImage()
       if (e.key === 'ArrowRight') nextImage()
+      // Trap Tab inside the dialog — focus must not walk the page behind it
+      if (e.key === 'Tab') {
+        const focusables = containerRef.current?.querySelectorAll<HTMLElement>('button')
+        if (!focusables || focusables.length === 0) return
+        const first = focusables[0]
+        const last = focusables[focusables.length - 1]
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, closeLightbox, nextImage, prevImage])
+
+  // Move focus into the dialog on open, restore to the trigger on close
+  useEffect(() => {
+    if (!isOpen) return
+    const previouslyFocused = document.activeElement as HTMLElement | null
+    closeButtonRef.current?.focus()
+    return () => previouslyFocused?.focus()
+  }, [isOpen])
 
   if (!isOpen || items.length === 0) return null
 
   const currentItem = items[currentIndex]
 
   return (
-    <div className="lightbox active" onClick={(e) => e.target === e.currentTarget && closeLightbox()}>
-      <button className="lightbox__close" aria-label={t('close')} onClick={closeLightbox}>
+    <div
+      ref={containerRef}
+      className="lightbox active"
+      role="dialog"
+      aria-modal="true"
+      aria-label={currentItem.title}
+      onClick={(e) => e.target === e.currentTarget && closeLightbox()}
+    >
+      <button ref={closeButtonRef} className="lightbox__close" aria-label={t('close')} onClick={closeLightbox}>
         ×
       </button>
       <button className="lightbox__nav lightbox__prev" aria-label={t('previous')} onClick={prevImage}>
