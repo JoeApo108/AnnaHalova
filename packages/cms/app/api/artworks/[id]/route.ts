@@ -71,6 +71,13 @@ export async function PUT(
       id
     ).run()
 
+    // Pending-changes detection watches galleries.updated_at, so bump the
+    // galleries containing this artwork or the edit never becomes publishable
+    await env.DB.prepare(`
+      UPDATE galleries SET updated_at = unixepoch()
+      WHERE id IN (SELECT gallery_id FROM gallery_items WHERE artwork_id = ?)
+    `).bind(id).run()
+
     return Response.json({ success: true })
   } catch (error) {
     console.error('Update artwork error:', error)
@@ -89,6 +96,13 @@ export async function DELETE(
   const { id } = await params
 
   try {
+    // Bump before removing gallery_items — pending-changes detection watches
+    // galleries.updated_at, and after the delete the membership is gone
+    await env.DB.prepare(`
+      UPDATE galleries SET updated_at = unixepoch()
+      WHERE id IN (SELECT gallery_id FROM gallery_items WHERE artwork_id = ?)
+    `).bind(id).run()
+
     await env.DB.prepare('DELETE FROM gallery_items WHERE artwork_id = ?').bind(id).run()
     await env.DB.prepare('DELETE FROM artworks WHERE id = ?').bind(id).run()
 
