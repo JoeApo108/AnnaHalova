@@ -1155,6 +1155,35 @@ Sitemap: https://annahalova.cz/sitemap.xml
 `;
 }
 
+// Self-contained bilingual 404 — the frontend worker serves it with status
+// 404 for any missed page (dead links are inevitable: publish removes pages)
+function generate404Page(): string {
+  return `<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>404 — Stránka nenalezena | Page not found</title>
+<style>
+  body { font-family: Georgia, 'Times New Roman', serif; background: #fff; color: #222; display: flex; min-height: 100vh; align-items: center; justify-content: center; margin: 0; text-align: center; }
+  main { padding: 2rem; }
+  h1 { font-size: 3rem; font-weight: normal; margin: 0 0 1rem; }
+  p { margin: 0.5rem 0; }
+  a { color: #222; }
+</style>
+</head>
+<body>
+<main>
+  <h1>404</h1>
+  <p>Stránka nebyla nalezena. <a href="/cs/">Zpět na úvodní stránku</a></p>
+  <p lang="en">Page not found. <a href="/en/">Back to the home page</a></p>
+</main>
+</body>
+</html>
+`;
+}
+
 export function generateAllPages(
   paintings: PaintingsData,
   watercolors: WatercolorsData,
@@ -1166,6 +1195,9 @@ export function generateAllPages(
 
   // Add robots.txt
   pages['robots.txt'] = generateRobotsTxt();
+
+  // Branded 404 (served with status 404 by the frontend worker)
+  pages['404/index.html'] = generate404Page();
 
   for (const locale of locales) {
     // Homepage

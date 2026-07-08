@@ -39,15 +39,33 @@ function addSecurityHeaders(response, additionalHeaders = {}) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    let path = url.pathname;
+    const path = url.pathname;
 
     // Root redirects to Czech (301 permanent, trailing slash to match sitemap + canonical)
     if (path === '/') {
       return Response.redirect(`${url.origin}/cs/`, 301);
     }
 
+    // Edge cache: Worker responses bypass Cloudflare's CDN cache entirely,
+    // so without this every visitor costs an R2 GET per page and per image.
+    // put() honors each response's own Cache-Control (60s HTML, 1y images).
+    const cache = caches.default;
+    if (request.method === 'GET') {
+      const hit = await cache.match(request);
+      if (hit) return hit;
+    }
+
+    const response = await serveFromR2(env, path);
+    if (request.method === 'GET' && response.status === 200) {
+      ctx.waitUntil(cache.put(request, response.clone()));
+    }
+    return response;
+  }
+};
+
+async function serveFromR2(env, path) {
     // Proxy sitemap.xml to the D1-backed sitemap on the CMS worker
     if (path === '/sitemap.xml') {
       const sitemapResponse = await fetch('https://cms.annahalova.cz/api/sitemap');
@@ -102,6 +120,14 @@ export default {
         });
       }
 
+      // Branded bilingual 404 published to R2; plain text only as last resort
+      const notFoundPage = await env.R2.get('site/404/index.html');
+      if (notFoundPage) {
+        return addSecurityHeaders(new Response(notFoundPage.body, { status: 404 }), {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'no-store',
+        });
+      }
       return addSecurityHeaders(new Response('Not Found', { status: 404 }));
     }
 
@@ -126,5 +152,4 @@ export default {
       'Content-Type': contentType,
       'Cache-Control': cacheControl
     });
-  }
-};
+}
