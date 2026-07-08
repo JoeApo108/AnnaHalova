@@ -12,8 +12,10 @@ export function buildAlternates(
   csPath: string,
   enPath: string,
 ): Metadata['alternates'] {
-  const csUrl = `${BASE_URL}/cs${csPath ? `/${csPath}` : ''}`
-  const enUrl = `${BASE_URL}/en${enPath ? `/${enPath}` : ''}`
+  // Trailing slash required: the site enforces trailingSlash, so a canonical
+  // without it 308-redirects to itself (GSC flagged this on the static pages)
+  const csUrl = `${BASE_URL}/cs${csPath ? `/${csPath}` : ''}/`
+  const enUrl = `${BASE_URL}/en${enPath ? `/${enPath}` : ''}/`
   return {
     canonical: locale === 'cs' ? csUrl : enUrl,
     languages: {
