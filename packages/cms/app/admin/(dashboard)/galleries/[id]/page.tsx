@@ -123,8 +123,7 @@ export default function GalleryEditPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name_cs: gallery.name_cs,
-        name_en: gallery.name_en,
-        is_visible: true
+        name_en: gallery.name_en
       })
     })
 

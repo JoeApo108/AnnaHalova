@@ -65,18 +65,23 @@ export async function PUT(
   const data = validation.data
 
   try {
+    // Update only fields present in the payload — the schema is partial, and
+    // writing absent fields silently reset sort_order to 0 / forced visibility
+    const fields: string[] = []
+    const values: (string | number)[] = []
+    if (data.name_cs !== undefined) { fields.push('name_cs = ?'); values.push(data.name_cs) }
+    if (data.name_en !== undefined) { fields.push('name_en = ?'); values.push(data.name_en) }
+    if (data.is_visible !== undefined) { fields.push('is_visible = ?'); values.push(data.is_visible ? 1 : 0) }
+    if (data.sort_order !== undefined) { fields.push('sort_order = ?'); values.push(data.sort_order) }
+
+    if (fields.length === 0) {
+      return Response.json({ error: 'No fields to update' }, { status: 400 })
+    }
+
     await env.DB.prepare(`
-      UPDATE galleries SET
-        name_cs = ?, name_en = ?, is_visible = ?, sort_order = ?,
-        updated_at = unixepoch()
+      UPDATE galleries SET ${fields.join(', ')}, updated_at = unixepoch()
       WHERE id = ?
-    `).bind(
-      data.name_cs,
-      data.name_en,
-      data.is_visible ? 1 : 0,
-      data.sort_order || 0,
-      id
-    ).run()
+    `).bind(...values, id).run()
 
     return Response.json({ success: true })
   } catch (error) {
