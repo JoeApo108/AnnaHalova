@@ -159,7 +159,7 @@ async function generatePaintingsData(env: CloudflareEnv) {
   const yearGalleries = await env.DB.prepare(`
     SELECT g.*
     FROM galleries g
-    WHERE g.category = 'painting' AND g.type = 'year'
+    WHERE g.category = 'painting' AND g.type = 'year' AND g.is_visible = 1
     ORDER BY g.year DESC
   `).all()
 
@@ -196,7 +196,7 @@ async function generatePaintingsData(env: CloudflareEnv) {
     FROM gallery_items gi
     JOIN artworks a ON a.id = gi.artwork_id
     JOIN galleries g ON g.id = gi.gallery_id
-    WHERE g.slug = 'carousel'
+    WHERE g.type = 'carousel' AND g.is_visible = 1
     ORDER BY gi.position
   `).all()
 
@@ -206,7 +206,7 @@ async function generatePaintingsData(env: CloudflareEnv) {
     FROM gallery_items gi
     JOIN artworks a ON a.id = gi.artwork_id
     JOIN galleries g ON g.id = gi.gallery_id
-    WHERE g.slug = 'featured'
+    WHERE g.type = 'featured' AND g.is_visible = 1
     ORDER BY gi.position
   `).all()
 
@@ -234,7 +234,7 @@ async function generateWatercolorsData(env: CloudflareEnv) {
     SELECT g.*,
       (SELECT COUNT(*) FROM gallery_items WHERE gallery_id = g.id) as item_count
     FROM galleries g
-    WHERE g.category = 'watercolor' AND g.type = 'series'
+    WHERE g.category = 'watercolor' AND g.type = 'series' AND g.is_visible = 1
     ORDER BY g.sort_order
   `).all()
 
@@ -251,7 +251,9 @@ async function generateWatercolorsData(env: CloudflareEnv) {
     series.push({
       id: gallery.series_key || gallery.slug,
       title: { cs: gallery.name_cs, en: gallery.name_en },
-      year: gallery.year,
+      // Fallback matches data-d1 — the renderer prints the year into the H1
+      // and a null would render literally as ", null"
+      year: gallery.year || 2025,
       preview: (items.results as ArtworkRow[]).slice(0, 3).map(a => a.filename),
       artworks: (items.results as ArtworkRow[]).map(a => ({
         id: a.id,
